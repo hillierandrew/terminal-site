@@ -1,12 +1,12 @@
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Andrew Hillier - Terminal</title>
-    <!-- CRT Monospace Font -->
     <link href="https://googleapis.com" rel="stylesheet">
-    <!-- Social Media Icons -->
     <link rel="stylesheet" href="https://cloudflare.com">
     <style>
         :root {
@@ -34,7 +34,6 @@
             position: relative;
         }
 
-        /* CRT Screen Overlay Effects */
         body::before {
             content: " ";
             display: block;
@@ -56,7 +55,6 @@
             pointer-events: none;
         }
 
-        /* Main Container */
         .terminal-container {
             width: 100%;
             max-width: 1100px;
@@ -68,7 +66,6 @@
             text-shadow: 0 0 4px rgba(0, 255, 65, 0.6);
         }
 
-        /* Top Header Metadata */
         .top-meta {
             display: flex;
             justify-content: space-between;
@@ -77,7 +74,6 @@
             padding-bottom: 5px;
         }
 
-        /* Big Name Header */
         .main-header {
             text-align: center;
             font-size: 72px;
@@ -86,7 +82,6 @@
             text-shadow: 0 0 8px var(--glow-color);
         }
 
-        /* Section Title Divider */
         .divider {
             text-align: center;
             font-size: 20px;
@@ -105,7 +100,6 @@
         .divider::before { left: 0; }
         .divider::after { right: 0; }
 
-        /* Social Grid Links */
         .social-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -147,7 +141,6 @@
             font-size: 22px;
         }
 
-        /* Bottom Widgets Layout */
         .bottom-widgets {
             display: grid;
             grid-template-columns: 1fr 1fr 1fr;
@@ -174,7 +167,6 @@
             line-height: 1.4;
         }
 
-        /* Styled button inside Contact Box */
         .msg-btn {
             display: inline-block;
             margin-top: 10px;
@@ -188,7 +180,6 @@
             color: var(--bg-color);
         }
 
-        /* Footer Metadata */
         .bottom-meta {
             display: flex;
             justify-content: space-between;
@@ -197,7 +188,6 @@
             padding-top: 5px;
         }
 
-        /* Cursor Blinking Effect */
         .cursor {
             animation: blink 1s infinite;
         }
@@ -211,7 +201,6 @@
 
     <div class="terminal-container">
         
-        <!-- TOP INFO METADATA -->
         <div class="top-meta">
             <div>USER: ANDREW_HILLIER</div>
             <div>SYS: AH-01</div>
@@ -219,14 +208,11 @@
             <div>CONNECTION: SECURE</div>
         </div>
 
-        <!-- MAIN NAME HEADER -->
         <h1 class="main-header">ANDREW HILLIER</h1>
 
         <div class="divider">CONTACT & CONNECT</div>
 
-        <!-- TWO COLUMN LINKS GRID -->
         <div class="social-grid">
-            <!-- Row 1 -->
             <a href="mailto:email@andrewhillier.ca" class="social-item">
                 <span class="social-label"><i class="fa-regular fa-envelope"></i> EMAIL</span>
                 <span class="social-handle">email@andrewhillier.ca</span>
@@ -236,7 +222,6 @@
                 <span class="social-handle">@drew</span>
             </a>
 
-            <!-- Row 2 -->
             <a href="https://instagram.com" target="_blank" class="social-item">
                 <span class="social-label"><i class="fa-brands fa-instagram"></i> INSTAGRAM</span>
                 <span class="social-handle">@drew</span>
@@ -246,7 +231,6 @@
                 <span class="social-handle">@drew</span>
             </a>
 
-            <!-- Row 3 -->
             <a href="https://facebook.com" target="_blank" class="social-item">
                 <span class="social-label"><i class="fa-brands fa-facebook-f"></i> FACEBOOK</span>
                 <span class="social-handle">@drew</span>
@@ -256,7 +240,6 @@
                 <span class="social-handle">@drew</span>
             </a>
 
-            <!-- Row 4 -->
             <a href="https://reddit.com" target="_blank" class="social-item">
                 <span class="social-label"><i class="fa-brands fa-reddit-alien"></i> REDDIT</span>
                 <span class="social-handle">u/drew</span>
@@ -266,7 +249,6 @@
                 <span class="social-handle">@drew</span>
             </a>
 
-            <!-- Row 5 -->
             <a href="https://discord.com" target="_blank" class="social-item">
                 <span class="social-label"><i class="fa-brands fa-discord"></i> DISCORD</span>
                 <span class="social-handle">@drew</span>
@@ -276,7 +258,6 @@
                 <span class="social-handle">/in/andrewhillier</span>
             </a>
 
-            <!-- Row 6 -->
             <a href="https://youtube.com" target="_blank" class="social-item">
                 <span class="social-label"><i class="fa-brands fa-youtube"></i> YOUTUBE</span>
                 <span class="social-handle">@drew</span>
@@ -286,9 +267,60 @@
                 <span class="social-handle">@drew</span>
             </a>
 
-            <!-- Row 7 -->
             <a href="https://tiktok.com" target="_blank" class="social-item">
                 <span class="social-label"><i class="fa-brands fa-tiktok"></i> TIKTOK</span>
                 <span class="social-handle">@drew</span>
             </a>
             <a href="https://telegram.org" target="_blank" class="social-item">
+                <span class="social-label"><i class="fa-solid fa-paper-plane"></i> TELEGRAM</span>
+                <span class="social-handle">@drew</span>
+            </a>
+        </div>
+
+        <div class="bottom-widgets">
+            <div class="widget-box">
+                <div class="widget-title">ABOUT</div>
+                <div class="widget-content">
+                    PC BUILDER.<br>
+                    TECH ENTHUSIAST.<br>
+                    INTERNET DWELLER.<br>
+                    <span class="cursor">>_</span>
+                </div>
+            </div>
+            <div class="widget-box">
+                <div class="widget-title">LOCATION</div>
+                <div class="widget-content">
+
+TORONTO, CANADA
+
+[CN TOWER VECTOR EMULATED]
+
+
+
+CONTACT
+
+WANT TO WORK TOGETHER?
+
+SEND A MESSAGE.
+
+> SEND MESSAGE
+
+
+© 2026 ANDREW HILLIER
+AH-01:~ $ ■
+ALL SYSTEMS OPERATIONAL
+BOOT TIME: --:--:--
+
+function updateClock() {
+const now = new Date();
+const timeString = 'BOOT TIME: ' +
+String(now.getHours()).padStart(2, '0') + ':' +
+String(now.getMinutes()).padStart(2, '0') + ':' +
+String(now.getSeconds()).padStart(2, '0');
+document.getElementById('clock').textContent = timeString;
+}
+setInterval(updateClock, 1000);
+updateClock();
+
+
+
