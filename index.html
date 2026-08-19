@@ -31,13 +31,13 @@
 
     /* Starfield Canvas Background */
     #starfield {
-      position: absolute;
+      position: fixed;
       top: 0;
       left: 0;
-      width: 100%;
-      height: 100%;
+      width: 100vw;
+      height: 100vh;
       z-index: 1;
-      opacity: 0.6; /* Keeps stars subtle behind the text */
+      display: block;
     }
 
     /* Screen Curvature & Vignette */
@@ -46,7 +46,7 @@
       display: block;
       position: absolute;
       top: 0; left: 0; bottom: 0; right: 0;
-      background: radial-gradient(circle at center, transparent 50%, rgba(0, 0, 0, 0.9) 100%);
+      background: radial-gradient(circle at center, transparent 40%, rgba(0, 0, 0, 0.85) 100%);
       pointer-events: none;
       z-index: 10;
     }
@@ -57,7 +57,7 @@
       display: block;
       position: absolute;
       top: 0; left: 0; bottom: 0; right: 0;
-      background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.35) 50%);
+      background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.4) 50%);
       background-size: 100% 4px;
       pointer-events: none;
       z-index: 11;
@@ -65,7 +65,7 @@
 
     .container {
       text-align: center;
-      z-index: 5;
+      z-index: 15;
       padding: 20px;
     }
 
@@ -175,58 +175,60 @@
   </div>
 
   <script>
-    /* --- STARFIELD ANIMATION --- */
+    /* --- STARFIELD ANIMATION ENGINE --- */
     const canvas = document.getElementById("starfield");
     const ctx = canvas.getContext("2d");
 
     let stars = [];
-    const numStars = 400;
+    const numStars = 500;
+    let width, height, cx, cy;
 
     function resizeCanvas() {
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
+      width = window.innerWidth;
+      height = window.innerHeight;
+      canvas.width = width;
+      canvas.height = height;
+      cx = width / 2;
+      cy = height / 2;
     }
 
     class Star {
       constructor() {
-        this.reset();
+        this.reset(true);
       }
 
-      reset() {
-        this.x = (Math.random() - 0.5) * canvas.width * 2;
-        this.y = (Math.random() - 0.5) * canvas.height * 2;
-        this.z = Math.random() * canvas.width;
+      reset(initial = false) {
+        this.x = (Math.random() - 0.5) * width * 2;
+        this.y = (Math.random() - 0.5) * height * 2;
+        this.z = initial ? Math.random() * width : width;
         this.pz = this.z;
       }
 
       update() {
-        this.z -= 2; // Speed of forward movement
+        this.pz = this.z;
+        this.z -= 4; // Velocity of warp
+
         if (this.z <= 0) {
-          this.reset();
-          this.z = canvas.width;
-          this.pz = this.z;
+          this.reset(false);
         }
       }
 
       draw() {
-        const cx = canvas.width / 2;
-        const cy = canvas.height / 2;
+        const sx = (this.x / this.z) * cx + cx;
+        const sy = (this.y / this.z) * cy + cy;
 
-        const x = (this.x / this.z) * (canvas.width / 2) + cx;
-        const y = (this.y / this.z) * (canvas.height / 2) + cy;
+        const px = (this.x / this.pz) * cx + cx;
+        const py = (this.y / this.pz) * cy + cy;
 
-        const px = (this.x / this.pz) * (canvas.width / 2) + cx;
-        const py = (this.y / this.pz) * (canvas.height / 2) + cy;
+        if (sx >= 0 && sx <= width && sy >= 0 && sy <= height) {
+          const alpha = Math.min(1, (1 - this.z / width) * 1.5);
+          const size = (1 - this.z / width) * 2.5;
 
-        this.pz = this.z;
-
-        if (x >= 0 && x <= canvas.width && y >= 0 && y <= canvas.height) {
-          const alpha = 1 - this.z / canvas.width;
-          ctx.strokeStyle = `rgba(51, 255, 51, ${alpha})`; // Matching CRT Green
-          ctx.lineWidth = (1 - this.z / canvas.width) * 1.5;
+          ctx.strokeStyle = `rgba(51, 255, 51, ${alpha})`;
+          ctx.lineWidth = Math.max(0.5, size);
           ctx.beginPath();
           ctx.moveTo(px, py);
-          ctx.lineTo(x, y);
+          ctx.lineTo(sx, sy);
           ctx.stroke();
         }
       }
@@ -241,18 +243,21 @@
     }
 
     function animateStars() {
-      ctx.fillStyle = "rgba(0, 0, 0, 0.25)"; // Trails effect
-      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      ctx.fillStyle = "rgba(0, 0, 0, 0.3)";
+      ctx.fillRect(0, 0, width, height);
 
-      for (let star of stars) {
-        star.update();
-        star.draw();
+      for (let i = 0; i < stars.length; i++) {
+        stars[i].update();
+        stars[i].draw();
       }
 
       requestAnimationFrame(animateStars);
     }
 
-    window.addEventListener("resize", resizeCanvas);
+    window.addEventListener("resize", () => {
+      resizeCanvas();
+    });
+
     initStars();
     animateStars();
 
