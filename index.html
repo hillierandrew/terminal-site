@@ -10,7 +10,7 @@
         :root {
             --neon-cyan: #00f3ff;
             --neon-magenta: #ff0055;
-            --dark-panel: rgba(10, 16, 26, 0.85);
+            --dark-panel: rgba(10, 16, 26, 0.9);
             --bg-solid: #03070d;
         }
 
@@ -27,8 +27,8 @@
             min-height: 100vh;
             display: flex;
             justify-content: center;
-            align-items: center;
-            padding: 20px;
+            align-items: flex-start;
+            padding: 20px 10px;
             overflow-x: hidden;
             position: relative;
         }
@@ -66,17 +66,19 @@
 
         .cyber-container {
             width: 100%;
-            max-width: 950px;
+            max-width: 500px;
             background: var(--dark-panel);
             border-left: 4px solid var(--neon-magenta);
             border-right: 1px solid rgba(0, 243, 255, 0.2);
             border-top: 1px solid rgba(0, 243, 255, 0.2);
             border-bottom: 1px solid rgba(0, 243, 255, 0.2);
-            padding: 25px;
+            padding: 20px;
             position: relative;
             z-index: 2;
             box-shadow: 0 0 30px rgba(0, 243, 255, 0.1), inset 0 0 15px rgba(0, 243, 255, 0.05);
-            clip-path: polygon(0 0, 95% 0, 100% 5%, 100% 100%, 5% 100%, 0 95%);
+            clip-path: polygon(0 0, 93% 0, 100% 4%, 100% 100%, 7% 100%, 0 96%);
+            margin-top: 10px;
+            margin-bottom: 30px;
         }
 
         .corner-tag {
@@ -90,29 +92,30 @@
 
         .main-header {
             text-align: center;
-            font-size: 46px;
+            font-size: 42px;
             font-weight: 900;
             color: #fff;
             text-transform: uppercase;
-            letter-spacing: 4px;
-            margin: 15px 0 30px 0;
+            letter-spacing: 3px;
+            margin: 25px 0 25px 0;
             position: relative;
             text-shadow: 2px 2px var(--neon-magenta), -2px -2px var(--neon-cyan);
+            line-height: 1.1;
         }
 
         .social-grid {
             display: flex;
             flex-direction: column;
-            gap: 14px;
+            gap: 12px;
         }
 
         .social-item {
             display: flex;
             justify-content: center;
             align-items: center;
-            background: rgba(13, 22, 37, 0.7);
+            background: rgba(13, 22, 37, 0.85);
             border: 1px solid rgba(0, 243, 255, 0.25);
-            padding: 18px;
+            padding: 16px;
             text-decoration: none;
             color: var(--neon-cyan);
             position: relative;
@@ -136,7 +139,6 @@
             background-color: var(--neon-cyan);
             border-color: var(--neon-cyan);
             box-shadow: 0 0 20px rgba(0, 243, 255, 0.6);
-            transform: scale(1.01);
         }
 
         .social-item:hover::before {
@@ -165,20 +167,24 @@
 
         @media (min-width: 768px) {
             body {
-                padding: 40px;
+                align-items: center;
+                padding: 30px;
             }
             .cyber-container {
-                padding: 40px;
+                padding: 35px;
+                margin-top: 0;
+                margin-bottom: 0;
             }
             .main-header {
-                font-size: 74px;
-                margin-bottom: 40px;
-                letter-spacing: 6px;
+                font-size: 54px;
+                margin-bottom: 30px;
+                letter-spacing: 5px;
             }
-            .social-grid {
-                display: grid;
-                grid-template-columns: 1fr 1fr;
-                gap: 16px 30px;
+            .social-item {
+                padding: 14px;
+            }
+            .cyber-container {
+                max-width: 600px;
             }
             .social-label {
                 font-size: 24px;
@@ -196,6 +202,10 @@
         <h1 class="main-header">ANDREW HILLIER</h1>
 
         <div class="social-grid">
+            <a href="mailto:email@andrewhillier.ca" class="social-item">
+                <span class="social-label"><i class="fa-regular fa-envelope"></i>EMAIL</span>
+            </a>
+
             <a href="https://x.com/drew" target="_blank" class="social-item">
                 <span class="social-label"><i class="fa-brands fa-x-twitter"></i>X / TWITTER</span>
             </a>
@@ -288,7 +298,6 @@
 
             for (let i = 0; i < rainDrops.length; i++) {
                 const text = charArr[Math.floor(Math.random() * charArr.length)];
-                
                 if (rainDrops[i] > 0) {
                     ctx.fillText(text, i * fontSize, rainDrops[i] * fontSize);
                 }
