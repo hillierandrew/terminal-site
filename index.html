@@ -24,7 +24,7 @@
             background-color: var(--bg-color);
             color: var(--glow-color);
             font-family: 'VT323', monospace;
-            font-size: 20px;
+            font-size: 21px;
             letter-spacing: 0.5px;
             min-height: 100vh;
             display: flex;
@@ -32,6 +32,7 @@
             align-items: center;
             position: relative;
             padding: 15px;
+            overflow-x: hidden;
         }
 
         body::before {
@@ -55,18 +56,30 @@
             pointer-events: none;
         }
 
+        canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            opacity: 0.15;
+            pointer-events: none;
+        }
+
         .terminal-container {
             width: 100%;
-            max-width: 1100px;
+            max-width: 1000px;
             display: flex;
             flex-direction: column;
             text-shadow: 0 0 4px rgba(0, 255, 65, 0.6);
+            z-index: 2;
         }
 
         .top-meta {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 5px;
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
             font-size: 18px;
             border-bottom: 1px dashed rgba(0, 255, 65, 0.3);
             padding-bottom: 8px;
@@ -75,9 +88,9 @@
 
         .main-header {
             text-align: center;
-            font-size: 45px;
+            font-size: 52px;
             font-weight: normal;
-            margin: 10px 0 20px 0;
+            margin: 10px 0 15px 0;
             text-shadow: 0 0 8px var(--glow-color);
             line-height: 1.1;
         }
@@ -92,10 +105,11 @@
             gap: 10px;
         }
         .divider::before, .divider::after {
-            content: "-------------------------------------";
+            content: "";
+            flex-grow: 1;
+            height: 1px;
+            background-color: var(--glow-color);
             opacity: 0.3;
-            overflow: hidden;
-            white-space: nowrap;
         }
 
         .social-grid {
@@ -127,6 +141,7 @@
             align-items: center;
             gap: 10px;
             font-size: 22px;
+            white-space: nowrap;
         }
 
         .social-label i {
@@ -181,9 +196,9 @@
         }
 
         .bottom-meta {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 8px;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
             font-size: 16px;
             border-top: 1px dashed rgba(0, 255, 65, 0.3);
             padding-top: 10px;
@@ -198,31 +213,29 @@
             50%, 100% { opacity: 0; }
         }
 
-        /* Desktop Layout Changes */
         @media (min-width: 768px) {
             body {
                 height: 100vh;
                 overflow: hidden;
                 padding: 30px;
+                justify-content: center;
             }
             .terminal-container {
-                height: 90vh;
+                height: 92vh;
                 justify-content: space-between;
             }
             .top-meta {
                 display: flex;
+                flex-direction: row;
                 justify-content: space-between;
                 font-size: 20px;
             }
             .main-header {
-                font-size: 72px;
-                margin: 15px 0;
+                font-size: 76px;
+                margin: 10px 0;
             }
-            .divider::before, .divider::after {
-                content: "";
-                width: 35%;
-                height: 1px;
-                background-color: var(--glow-color);
+            .divider {
+                font-size: 20px;
             }
             .social-grid {
                 display: grid;
@@ -245,6 +258,7 @@
             }
             .bottom-meta {
                 display: flex;
+                flex-direction: row;
                 justify-content: space-between;
                 font-size: 18px;
                 text-align: left;
@@ -253,6 +267,8 @@
     </style>
 </head>
 <body>
+
+    <canvas id="matrix"></canvas>
 
     <div class="terminal-container">
         
@@ -306,11 +322,11 @@
 
             <a href="https://discord.com" target="_blank" class="social-item">
                 <span class="social-label"><i class="fa-brands fa-discord"></i> DISCORD</span>
-                <span class="social-handle">@drew</span>
-            </a>
-            <a href="https://linkedin.com" target="_blank" class="social-item">
-                <span class="social-label"><i class="fa-brands fa-linkedin-in"></i> LINKEDIN</span>
 
+@drew
+
+
+LINKEDIN
 /in/andrewhillier
 YOUTUBE
 @drew
@@ -369,6 +385,43 @@ document.getElementById('clock').textContent = timeString;
 }
 setInterval(updateClock, 1000);
 updateClock();
+const canvas = document.getElementById('matrix');
+const ctx = canvas.getContext('2d');
+function resizeCanvas() {
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+}
+resizeCanvas();
+window.addEventListener('resize', resizeCanvas);
+const katakana = 'ｱｲｳｴｵｶｷｸｹｺｻｼｽｾｿﾀﾁﾂﾃﾄﾅﾆﾇﾈﾉﾊﾋﾌﾍﾎﾏﾐﾑﾒﾓﾔﾕﾖﾗﾘﾙﾚﾛﾜﾝ1234567890XYZ';
+const alphabet = katakana.split('');
+const fontSize = 16;
+let columns = canvas.width / fontSize;
+const rainDrops = [];
+for (let x = 0; x < columns; x++) {
+rainDrops[x] = 1;
+}
+function draw() {
+ctx.fillStyle = 'rgba(5, 11, 6, 0.05)';
+ctx.fillRect(0, 0, canvas.width, canvas.height);
+ctx.fillStyle = '#00FF41';
+ctx.font = fontSize + 'px monospace';
+columns = canvas.width / fontSize;
+if (rainDrops.length < columns) {
+for (let i = rainDrops.length; i < columns; i++) {
+rainDrops[i] = 1;
+}
+}
+for (let i = 0; i < rainDrops.length; i++) {
+const text = alphabet[Math.floor(Math.random() * alphabet.length)];
+ctx.fillText(text, i * fontSize, rainDrops[i] * fontSize);
+if (rainDrops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+rainDrops[i] = 0;
+}
+rainDrops[i]++;
+}
+}
+setInterval(draw, 30);
 
 
 
