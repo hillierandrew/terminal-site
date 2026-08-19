@@ -1,379 +1,238 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🍄 ANDREW HILLIER 🌀</title>
-    <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        :root {
-            --acid-green: #39ff14;
-            --trippy-pink: #ff007f;
-            --electric-purple: #9d00ff;
-            --cosmic-blue: #00f0ff;
-            --dark-void: #020205;
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ANDREW HILLIER</title>
+  <style>
+    :root {
+      --crt-green: #33ff33;
+      --crt-dim: #116611;
+      --crt-bg: #050a05;
+    }
 
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
 
-        body {
-            background-color: var(--dark-void);
-            color: var(--cosmic-blue);
-            font-family: 'Share Tech Mono', monospace;
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: flex-start;
-            padding: 20px 10px;
-            overflow-x: hidden;
-            position: relative;
-        }
+    body {
+      background-color: #000;
+      color: var(--crt-green);
+      font-family: 'Courier New', Courier, monospace;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+      position: relative;
+    }
 
-        /* Fullscreen Kaleidoscope Hypno-Canvas Background */
-        canvas {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 0;
-            pointer-events: none;
-        }
+    /* Screen Curvature & Vignette */
+    body::before {
+      content: " ";
+      display: block;
+      position: absolute;
+      top: 0; left: 0; bottom: 0; right: 0;
+      background: radial-gradient(circle at center, transparent 60%, rgba(0, 0, 0, 0.85) 100%);
+      pointer-events: none;
+      z-index: 10;
+    }
 
-        /* Screen Scanline Overlay */
-        body::before {
-            content: " ";
-            display: block;
-            position: fixed;
-            top: 0; left: 0; bottom: 0; right: 0;
-            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.4) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.08), rgba(0, 255, 0, 0.04), rgba(0, 0, 255, 0.08));
-            z-index: 10;
-            background-size: 100% 6px, 6px 100%;
-            pointer-events: none;
-        }
+    /* Scanlines */
+    body::after {
+      content: " ";
+      display: block;
+      position: absolute;
+      top: 0; left: 0; bottom: 0; right: 0;
+      background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.35) 50%);
+      background-size: 100% 4px;
+      pointer-events: none;
+      z-index: 11;
+    }
 
-        /* Psychedelic Melting Container */
-        .psycho-container {
-            width: 100%;
-            max-width: 480px;
-            background: rgba(10, 5, 20, 0.85);
-            border: 2px solid var(--trippy-pink);
-            padding: 25px 15px;
-            position: relative;
-            z-index: 2;
-            box-shadow: 0 0 40px var(--electric-purple), inset 0 0 20px rgba(0, 240, 255, 0.2);
-            margin-top: 15px;
-            margin-bottom: 40px;
-            animation: containerFloat 8s ease-in-out infinite;
-            border-radius: 20px 4px 20px 4px;
-        }
+    .container {
+      text-align: center;
+      z-index: 2;
+      padding: 20px;
+    }
 
-        @keyframes containerFloat {
-            0%, 100% { transform: translateY(0) rotate(0deg); border-color: var(--trippy-pink); }
-            33% { transform: translateY(-6px) rotate(0.5deg); border-color: var(--acid-green); }
-            66% { transform: translateY(4px) rotate(-0.5deg); border-color: var(--cosmic-blue); }
-        }
+    /* CRT Phosphor Glow & Flicker */
+    .title {
+      font-size: clamp(2rem, 6vw, 4.5rem);
+      font-weight: bold;
+      letter-spacing: 0.15em;
+      text-shadow: 0 0 8px var(--crt-green), 0 0 20px var(--crt-dim);
+      animation: flicker 0.15s infinite;
+      min-height: 1.2em;
+      user-select: none;
+      white-space: nowrap;
+    }
 
-        .fluid-header {
-            text-align: center;
-            position: relative;
-            margin-bottom: 30px;
-        }
+    .contact-btn {
+      margin-top: 2rem;
+      background: transparent;
+      color: var(--crt-green);
+      border: 1px solid var(--crt-green);
+      padding: 8px 24px;
+      font-family: inherit;
+      font-size: 0.85rem;
+      letter-spacing: 0.2em;
+      cursor: pointer;
+      text-shadow: 0 0 5px var(--crt-green);
+      box-shadow: 0 0 5px var(--crt-dim);
+      transition: all 0.2s ease;
+    }
 
-        /* Breathing Name Heading */
-        .main-header {
-            font-size: 38px;
-            font-weight: 900;
-            color: #fff;
-            text-transform: uppercase;
-            letter-spacing: 4px;
-            position: relative;
-            animation: meltText 4s ease-in-out infinite;
-            text-shadow: 3px 3px var(--trippy-pink), -3px -3px var(--cosmic-blue);
-        }
+    .contact-btn:hover {
+      background: var(--crt-green);
+      color: #000;
+      box-shadow: 0 0 15px var(--crt-green);
+    }
 
-        @keyframes meltText {
-            0%, 100% { transform: scale(1) skewX(0deg); text-shadow: 3px 3px var(--trippy-pink), -3px -3px var(--cosmic-blue); }
-            50% { transform: scale(1.05) skewX(-4deg); text-shadow: -3px 3px var(--acid-green), 3px -3px var(--electric-purple); color: var(--cosmic-blue); }
-        }
+    /* Minimal Contact Modal */
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(0, 0, 0, 0.85);
+      z-index: 20;
+      justify-content: center;
+      align-items: center;
+    }
 
-        .header-decor {
-            font-size: 24px;
-            display: block;
-            margin-top: 5px;
-            animation: spinDecor 6s linear infinite;
-        }
+    .modal-content {
+      border: 1px solid var(--crt-green);
+      background: var(--crt-bg);
+      padding: 30px;
+      text-align: center;
+      box-shadow: 0 0 20px var(--crt-dim);
+    }
 
-        @keyframes spinDecor {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
+    .modal-content a {
+      color: var(--crt-green);
+      text-decoration: none;
+      font-size: 1.1rem;
+      display: block;
+      margin: 15px 0;
+      text-shadow: 0 0 8px var(--crt-green);
+    }
 
-        .social-grid {
-            display: flex;
-            flex-direction: column;
-            gap: 14px;
-        }
+    .modal-content a:hover {
+      text-decoration: underline;
+    }
 
-        /* Interacting Reality Link Modules */
-        .social-item {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            background: rgba(20, 10, 35, 0.9);
-            border: 1px solid rgba(0, 240, 255, 0.3);
-            padding: 18px;
-            text-decoration: none;
-            color: var(--cosmic-blue);
-            position: relative;
-            border-radius: 8px;
-            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-            overflow: hidden;
-        }
+    .close-btn {
+      background: transparent;
+      border: none;
+      color: var(--crt-green);
+      font-family: inherit;
+      cursor: pointer;
+      font-size: 0.8rem;
+      letter-spacing: 0.1em;
+      opacity: 0.7;
+    }
 
-        .social-item::after {
-            content: '🌀';
-            position: absolute;
-            right: 15px;
-            opacity: 0.2;
-            transition: all 0.3s ease;
-        }
+    .close-btn:hover {
+      opacity: 1;
+    }
 
-        /* Trip Hover Adjustments */
-        .social-item:hover {
-            color: #fff;
-            background-color: var(--electric-purple);
-            border-color: var(--acid-green);
-            box-shadow: 0 0 25px var(--acid-green), inset 0 0 10px #fff;
-            transform: scale(1.03) rotate(1deg);
-        }
-
-        .social-item:hover::after {
-            opacity: 1;
-            transform: rotate(360deg) scale(1.4);
-        }
-
-        .social-item:nth-child(even):hover {
-            background-color: var(--trippy-pink);
-            transform: scale(1.03) rotate(-1deg);
-            box-shadow: 0 0 25px var(--cosmic-blue), inset 0 0 10px #fff;
-        }
-
-        .social-label {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            font-size: 22px;
-            font-weight: bold;
-            letter-spacing: 2px;
-        }
-
-        .social-label i {
-            font-size: 20px;
-            color: var(--trippy-pink);
-            transition: transform 0.3s ease;
-        }
-
-        .social-item:hover i {
-            transform: scale(1.3) rotate(-20deg);
-            color: var(--acid-green);
-        }
-
-        @media (min-width: 768px) {
-            body {
-                align-items: center;
-                padding: 40px;
-            }
-            .psycho-container {
-                padding: 40px;
-            }
-            .main-header {
-                font-size: 54px;
-                letter-spacing: 6px;
-            }
-            .social-label {
-                font-size: 24px;
-            }
-        }
-    </style>
+    @keyframes flicker {
+      0% { opacity: 0.97; }
+      50% { opacity: 1; }
+      100% { opacity: 0.98; }
+    }
+  </style>
 </head>
 <body>
 
-    <!-- Plasma Morphing Background Layer -->
-    <canvas id="trip-matrix"></canvas>
+  <div class="container">
+    <div id="scramble-text" class="title">ANDREW HILLIER</div>
+    <button class="contact-btn" onclick="toggleModal(true)">[ CONTACT ]</button>
+  </div>
 
-    <div class="psycho-container">
-        
-        <div class="fluid-header">
-            <span class="header-decor">🍄✨👁️✨🍄</span>
-            <h1 class="main-header">ANDREW HILLIER</h1>
-        </div>
-
-        <div class="social-grid">
-            <a href="mailto:email@andrewhillier.ca" class="social-item" data-text="👽 EMAIL 🪐">
-                <span class="social-label"><i class="fa-regular fa-envelope"></i> <span class="text-node">👽 EMAIL 🪐</span></span>
-            </a>
-
-            <a href="https://x.com/drew" target="_blank" class="social-item" data-text="🌪️ X / TWITTER 🌀">
-                <span class="social-label"><i class="fa-brands fa-x-twitter"></i> <span class="text-node">🌪️ X / TWITTER 🌀</span></span>
-            </a>
-
-            <a href="https://instagram.com/drew" target="_blank" class="social-item" data-text="🌊 INSTAGRAM 🔮">
-                <span class="social-label"><i class="fa-brands fa-instagram"></i> <span class="text-node">🌊 INSTAGRAM 🔮</span></span>
-            </a>
-
-            <a href="https://threads.net/@drew" target="_blank" class="social-item" data-text="🌌 THREADS 🕸️">
-                <span class="social-label"><i class="fa-brands fa-threads"></i> <span class="text-node">🌌 THREADS 🕸️</span></span>
-            </a>
-
-            <a href="https://facebook.com/drew" target="_blank" class="social-item" data-text="🎭 FACEBOOK 👁️">
-                <span class="social-label"><i class="fa-brands fa-facebook-f"></i> <span class="text-node">🎭 FACEBOOK 👁️</span></span>
-            </a>
-
-            <a href="https://bluesky.app" target="_blank" class="social-item" data-text="🫧 BLUESKY ☁️">
-                <span class="social-label"><i class="fa-solid fa-cloud"></i> <span class="text-node">🫧 BLUESKY ☁️</span></span>
-            </a>
-
-            <a href="https://reddit.com/u/drew" target="_blank" class="social-item" data-text="☄️ REDDIT 🛸">
-                <span class="social-label"><i class="fa-brands fa-reddit-alien"></i> <span class="text-node">☄️ REDDIT 🛸</span></span>
-            </a>
-
-            <a href="https://twitch.tv/drew" target="_blank" class="social-item" data-text="⚡ TWITCH 🌌">
-                <span class="social-label"><i class="fa-brands fa-twitch"></i> <span class="text-node">⚡ TWITCH 🌌</span></span>
-            </a>
-
-            <a href="https://discord.com" target="_blank" class="social-item" data-text="🧪 DISCORD 🔮">
-                <span class="social-label"><i class="fa-brands fa-discord"></i> <span class="text-node">🧪 DISCORD 🔮</span></span>
-            </a>
-
-            <a href="https://linkedin.com/in/andrewhillier" target="_blank" class="social-item" data-text="🧱 LINKEDIN 🧿">
-                <span class="social-label"><i class="fa-brands fa-linkedin-in"></i> <span class="text-node">🧱 LINKEDIN 🧿</span></span>
-            </a>
-
-            <a href="https://youtube.com" target="_blank" class="social-item" data-text="📺 YOUTUBE 💥">
-                <span class="social-label"><i class="fa-brands fa-youtube"></i> <span class="text-node">📺 YOUTUBE 💥</span></span>
-            </a>
-
-            <a href="https://snapchat.com" target="_blank" class="social-item" data-text="👻 SNAPCHAT 🪞">
-                <span class="social-label"><i class="fa-brands fa-snapchat"></i> <span class="text-node">👻 SNAPCHAT 🪞</span></span>
-            </a>
-
-            <a href="https://tiktok.com" target="_blank" class="social-item" data-text="🎵 TIKTOK 🤪">
-                <span class="social-label"><i class="fa-brands fa-tiktok"></i> <span class="text-node">🎵 TIKTOK 🤪</span></span>
-            </a>
-
-            <a href="https://telegram.org" target="_blank" class="social-item" data-text="🎈 TELEGRAM 🍄">
-                <span class="social-label"><i class="fa-solid fa-paper-plane"></i> <span class="text-node">🎈 TELEGRAM 🍄</span></span>
-            </a>
-        </div>
-        
+  <div id="contact-modal" class="modal">
+    <div class="modal-content">
+      <p style="letter-spacing: 0.1em; font-size: 0.8rem; opacity: 0.8;">DIRECTORY</p>
+      <a href="mailto:email@andrewhillier.ca">email@andrewhillier.ca</a>
+      <button class="close-btn" onclick="toggleModal(false)">[ CLOSE ]</button>
     </div>
+  </div>
 
-    <script>
-        // --- 1. THE GLYPH SHIFT SCRAMBLER MOTOR ---
-        const components = "%&#§10?*@$▲▼🌀👁️🍄";
-        const items = document.querySelectorAll('.social-item');
+  <script>
+    const targetText = "ANDREW HILLIER";
+    const el = document.getElementById("scramble-text");
 
-        items.forEach(item => {
-            const node = item.querySelector('.text-node');
-            const primaryString = item.getAttribute('data-text');
-            let interval = null;
+    // Leet replacements and glitch symbols
+    const leetMap = { 'A': ['@', '4'], 'E': ['3'], 'I': ['1', '!'], 'O': ['0'], 'R': ['R', 'r'], 'S': ['5'] };
+    const glitchChars = "0137_/#\\|@$%&*";
 
-            item.addEventListener('mouseenter', () => {
-                let iteration = 0;
-                clearInterval(interval);
-                
-                interval = setInterval(() => {
-                    node.innerText = primaryString.split("")
-                        .map((char, index) => {
-                            if(index < iteration) {
-                                return primaryString[index];
-                            }
-                            return components[Math.floor(Math.random() * components.length)];
-                        })
-                        .join("");
-                    
-                    if(iteration >= primaryString.length) { 
-                        clearInterval(interval);
-                    }
-                    iteration += 1 / 3;
-                }, 25);
-            });
+    // Static preset states from your sequence for variety
+    const presets = [
+      "ANDREW HILLIER", "ANDREW HILILER", "ANDEW HIRLIER", "ANDR3W H1LLI3R",
+      "@ndr3w hi11iEr", "ANDREW HILL1ER", "4NDR3W HILLIER", "ANDRWE HILLIER",
+      "ANDREW HI1LIER", "@NDR3W H1LLI3R", "ANDREW HILRIEH", "4NDR3W HI11IER",
+      "ANDR3W HILLI3R", "ANDREW HILIIER", "@ndr3w H1LL1ER", "ANDREW HLLIIER",
+      "4NDR3W HIL1ER", "ANDREW HILILER", "@NDR3W HILLI3R", "ANDREW HIILLER",
+      "ANDR3W H1LI3R", "@ndr3w hi11i3r", "ANDREW HIL_LIER", "4NDR3W HILLI3R",
+      "ANDREW HIRLIER", "@NDR3W HIL1IER", "ANDR EW HILLIER", "4ndr3w hi11iEr",
+      "ANDREW HILIILER", "ANDR3W H1LLIER", "@ndr3w HIL1I3R", "ANDREW HILLIE_R",
+      "4NDR3W H1LL1ER", "ANDREW HILRER", "@NDR3W HILIIER", "ANDR3W HIL1ER",
+      "ANDREW HILLlER", "4ndr3w hi11i3r", "ANDREW HILILRE", "@NDR3W H1LLI3R_",
+      "ANDRWE HIL1IER", "4NDR3W HILII3R", "ANDREW H1LLIER", "@ndr3w hi11iEr",
+      "ANDR3W HLLI3R", "4NDR3W H1LIER", "ANDREW HILILER", "@NDR3W HILLI3R",
+      "ANDR3W HI11IER", "4ndr3w H1LL1Er", "ANDREW HIRL1ER", "@ndr3w HILII3R",
+      "4NDR3W HILL1ER", "ANDR3W HILRIEH", "@NDR3W H1LLIER", "ANDREW HIL1I3R",
+      "4ndr3w hi11iEr", "ANDRWE H1LLI3R", "@NDR3W HIL1ER", "ANDREW HILLIER"
+    ];
 
-            item.addEventListener('mouseleave', () => {
-                clearInterval(interval);
-                node.innerText = primaryString;
-            });
-        });
-
-        // --- 2. PLASMA MATHEMATICAL VISUALIZER ---
-        const canvas = document.getElementById('trip-matrix');
-        const ctx = canvas.getContext('2d');
-
-        function resize() {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
+    function generateAlgorithmicGlitch() {
+      return targetText.split('').map(char => {
+        if (char === ' ') return ' ';
+        const rand = Math.random();
+        if (rand < 0.3 && leetMap[char]) {
+          const options = leetMap[char];
+          return options[Math.floor(Math.random() * options.length)];
+        } else if (rand < 0.5) {
+          return glitchChars[Math.floor(Math.random() * glitchChars.length)];
         }
-        resize();
-        window.addEventListener('resize', resize);
+        return Math.random() < 0.5 ? char.toLowerCase() : char;
+      }).join('');
+    }
 
-        let time = 0;
+    function runScrambleCycle() {
+      // Hold clean target text for 2.5 seconds
+      el.textContent = targetText;
+      
+      setTimeout(() => {
+        let frame = 0;
+        const totalFrames = 30 + Math.floor(Math.random() * 20); // 30-50 fast rapid shifts
         
-        function animatePlasma() {
-            const width = canvas.width;
-            const height = canvas.height;
-            
-            ctx.fillStyle = 'rgba(2, 2, 5, 0.08)';
-            ctx.fillRect(0, 0, width, height);
+        const interval = setInterval(() => {
+          // Mix predefined leet list with fully algorithmic glitched frames
+          if (Math.random() < 0.6) {
+            el.textContent = presets[Math.floor(Math.random() * presets.length)];
+          } else {
+            el.textContent = generateAlgorithmicGlitch();
+          }
+          
+          frame++;
+          if (frame >= totalFrames) {
+            clearInterval(interval);
+            el.textContent = targetText;
+            runScrambleCycle(); // Loop next burst
+          }
+        }, 60); // Speed of character switches (ms)
+      }, 2500);
+    }
 
-            const gridCount = 28;
-            const spacingX = width / gridCount;
-            const spacingY = height / gridCount;
+    function toggleModal(show) {
+      document.getElementById('contact-modal').style.display = show ? 'flex' : 'none';
+    }
 
-            time += 0.02;
-
-            for (let x = 0; x <= gridCount; x++) {
-                for (let y = 0; y <= gridCount; y++) {
-                    const posX = x * spacingX;
-                    const posY = y * spacingY;
-
-                    const wave1 = Math.sin(x * 0.15 + time);
-                    const wave2 = Math.cos(y * 0.15 - time);
-                    const wave3 = Math.sin((x + y) * 0.1 + time * 0.5);
-                    const totalWave = (wave1 + wave2 + wave3) / 3;
-
-                    const radius = Math.abs(totalWave) * 16 + 2;
-                    const offsetX = Math.sin(y + time) * 12;
-                    const offsetY = Math.cos(x - time) * 12;
-
-                    const r = Math.floor(127 + 127 * Math.sin(time + posX * 0.002));
-                    const g = Math.floor(127 + 127 * Math.cos(time + posY * 0.002));
-                    const b = Math.floor(200 + 55 * Math.sin(time));
-
-                    ctx.fillStyle = `rgba(${r}, ${g}, ${b}, 0.25)`;
-                    
-                    ctx.beginPath();
-                    ctx.arc(posX + offsetX, posY + offsetY, radius, 0, Math.PI * 2);
-                    ctx.fill();
-
-                    if (Math.random() > 0.997) {
-                        ctx.strokeStyle = 'rgba(57, 255, 20, 0.4)';
-                        ctx.lineWidth = 1;
-                        ctx.beginPath();
-                        ctx.moveTo(posX, posY);
-                        ctx.lineTo(posX + offsetX * 4, posY + offsetY * 4);
-                        ctx.stroke();
-                    }
-                }
-            }
-            requestAnimationFrame(animatePlasma);
-        }
-        animatePlasma();
-    </script>
+    // Start loop
+    runScrambleCycle();
+  </script>
 </body>
 </html>
