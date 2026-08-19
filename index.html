@@ -1,15 +1,21 @@
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Andrew Hillier</title>
+    <!-- Sharp tech font -->
     <link href="https://googleapis.com" rel="stylesheet">
     <link rel="stylesheet" href="https://cloudflare.com">
     <style>
         :root {
-            --glow-color: #00FF41;
-            --bg-color: #050b06;
+            --neon-cyan: #00f3ff;
+            --neon-magenta: #ff0055;
+            --neon-yellow: #fcee0a;
+            --dark-panel: rgba(10, 16, 26, 0.85);
+            --bg-solid: #03070d;
         }
 
         * {
@@ -19,18 +25,19 @@
         }
 
         body {
-            background-color: var(--bg-color);
-            color: var(--glow-color);
-            font-family: 'VT323', monospace;
+            background-color: var(--bg-solid);
+            color: var(--neon-cyan);
+            font-family: 'Share Tech Mono', monospace;
             min-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
-            padding: 15px;
+            padding: 20px;
             overflow-x: hidden;
+            position: relative;
         }
 
-        /* Starfield Canvas Background */
+        /* 3D Flying Starfield Background */
         canvas {
             position: fixed;
             top: 0;
@@ -41,15 +48,15 @@
             pointer-events: none;
         }
 
-        /* Retro CRT Glass Overlays */
+        /* Glitchy CRT scanlines and screen distortion overlays */
         body::before {
             content: " ";
             display: block;
             position: fixed;
             top: 0; left: 0; bottom: 0; right: 0;
-            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.3) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.05), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.05));
             z-index: 10;
-            background-size: 100% 3px, 6px 100%;
+            background-size: 100% 4px, 6px 100%;
             pointer-events: none;
         }
 
@@ -58,87 +65,159 @@
             display: block;
             position: fixed;
             top: 0; left: 0; bottom: 0; right: 0;
-            background: radial-gradient(circle, rgba(0,0,0,0) 60%, rgba(0,0,0,0.8) 100%);
+            background: radial-gradient(circle, rgba(0,0,0,0) 40%, rgba(3, 7, 13, 0.7) 100%);
             z-index: 11;
             pointer-events: none;
         }
 
-        .terminal-container {
+        /* Cyberpunk UI Terminal Wrapper */
+        .cyber-container {
             width: 100%;
-            max-width: 900px;
-            text-shadow: 0 0 4px rgba(0, 255, 65, 0.6);
+            max-width: 950px;
+            background: var(--dark-panel);
+            border-left: 4px solid var(--neon-magenta);
+            border-right: 1px solid rgba(0, 243, 255, 0.2);
+            border-top: 1px solid rgba(0, 243, 255, 0.2);
+            border-bottom: 1px solid rgba(0, 243, 255, 0.2);
+            padding: 25px;
+            position: relative;
             z-index: 2;
+            box-shadow: 0 0 30px rgba(0, 243, 255, 0.1), inset 0 0 15px rgba(0, 243, 255, 0.05);
+            /* Angular cutout effect common in cyberpunk designs */
+            clip-path: polygon(0 0, 95% 0, 100% 5%, 100% 100%, 5% 100%, 0 95%);
         }
 
+        /* Corner accents to make it look like a high-tech screen display */
+        .corner-tag {
+            position: absolute;
+            top: 6px;
+            left: 12px;
+            font-size: 11px;
+            letter-spacing: 2px;
+            color: rgba(0, 243, 255, 0.4);
+        }
+
+        .corner-decor {
+            position: absolute;
+            bottom: 8px;
+            right: 15px;
+            font-size: 12px;
+            color: var(--neon-magenta);
+            letter-spacing: 1px;
+        }
+
+        /* Glitch Typography for Name Header */
         .main-header {
             text-align: center;
-            font-size: 56px;
-            font-weight: normal;
-            margin-bottom: 20px;
-            text-shadow: 0 0 10px var(--glow-color);
+            font-size: 46px;
+            font-weight: 900;
+            color: #fff;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            margin: 15px 0 30px 0;
+            position: relative;
+            text-shadow: 2px 2px var(--neon-magenta), -2px -2px var(--neon-cyan);
         }
 
         .social-grid {
             display: flex;
             flex-direction: column;
-            gap: 12px;
+            gap: 14px;
         }
 
+        /* Interactive Cyberpunk Grid Modules */
         .social-item {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            border: 1px solid rgba(0, 255, 65, 0.4);
-            background: rgba(5, 11, 6, 0.8);
-            padding: 12px 15px;
+            background: rgba(13, 22, 37, 0.7);
+            border: 1px solid rgba(0, 243, 255, 0.25);
+            padding: 14px 18px;
             text-decoration: none;
-            color: var(--glow-color);
-            transition: all 0.15s ease;
+            color: var(--neon-cyan);
+            position: relative;
+            transition: all 0.2s cubic-bezier(0.165, 0.84, 0.44, 1);
+            overflow: hidden;
+        }
+
+        /* Subtle angled cuts on button corners */
+        .social-item::before {
+            content: '';
+            position: absolute;
+            bottom: 0; right: 0;
+            width: 0; height: 0;
+            border-style: solid;
+            border-width: 0 0 8px 8px;
+            border-color: transparent transparent var(--neon-cyan) transparent;
+            transition: all 0.2s ease;
         }
 
         .social-item:hover {
-            background-color: var(--glow-color);
-            color: var(--bg-color);
-            box-shadow: 0 0 15px var(--glow-color);
-            text-shadow: none;
+            color: #03070d;
+            background-color: var(--neon-cyan);
+            border-color: var(--neon-cyan);
+            box-shadow: 0 0 20px rgba(0, 243, 255, 0.6);
+            transform: scale(1.01);
+        }
+
+        .social-item:hover::before {
+            border-color: transparent transparent var(--neon-magenta) transparent;
+        }
+
+        /* Highlights row yellow on hover to give arcade panel vibe */
+        .social-item:active {
+            background-color: var(--neon-yellow);
+            border-color: var(--neon-yellow);
         }
 
         .social-label {
             display: flex;
             align-items: center;
-            gap: 12px;
-            font-size: 24px;
+            gap: 14px;
+            font-size: 20px;
+            font-weight: bold;
+            letter-spacing: 1px;
         }
 
         .social-label i {
             width: 24px;
             text-align: center;
+            color: var(--neon-magenta);
+            transition: color 0.2s ease;
+        }
+
+        .social-item:hover i {
+            color: #03070d;
         }
 
         .social-handle {
-            font-size: 24px;
-            max-width: 60%;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
+            font-size: 20px;
+            opacity: 0.9;
         }
 
-        /* Desktop Layout Rules */
+        /* Desktop Layout Modifiers */
         @media (min-width: 768px) {
+            body {
+                padding: 40px;
+            }
+            .cyber-container {
+                padding: 40px;
+            }
             .main-header {
-                font-size: 84px;
-                margin-bottom: 30px;
+                font-size: 74px;
+                margin-bottom: 40px;
+                letter-spacing: 6px;
             }
             .social-grid {
                 display: grid;
                 grid-template-columns: 1fr 1fr;
-                gap: 15px 30px;
+                gap: 16px 30px;
             }
             .social-item {
-                padding: 10px 20px;
+                padding: 12px 20px;
             }
             .social-label, .social-handle {
-                font-size: 26px;
+                font-size: 22px;
             }
         }
     </style>
@@ -147,135 +226,118 @@
 
     <canvas id="stars"></canvas>
 
-    <div class="terminal-container">
+    <div class="cyber-container">
+        <div class="corner-tag">NET.CORE // UNSECURED_RELAY</div>
         
         <h1 class="main-header">ANDREW HILLIER</h1>
 
         <div class="social-grid">
             <a href="mailto:email@andrewhillier.ca" class="social-item">
-                <span class="social-label"><i class="fa-regular fa-envelope"></i> EMAIL</span>
+                <span class="social-label"><i class="fa-regular fa-envelope"></i>EMAIL</span>
                 <span class="social-handle">email@andrewhillier.ca</span>
             </a>
             <a href="https://x.com" target="_blank" class="social-item">
-                <span class="social-label"><i class="fa-brands fa-x-twitter"></i> X / TWITTER</span>
+                <span class="social-label"><i class="fa-brands fa-x-twitter"></i>X / TWITTER</span>
                 <span class="social-handle">@drew</span>
             </a>
 
             <a href="https://instagram.com" target="_blank" class="social-item">
-                <span class="social-label"><i class="fa-brands fa-instagram"></i> INSTAGRAM</span>
+                <span class="social-label"><i class="fa-brands fa-instagram"></i>INSTAGRAM</span>
                 <span class="social-handle">@drew</span>
             </a>
             <a href="https://threads.net" target="_blank" class="social-item">
-                <span class="social-label"><i class="fa-brands fa-threads"></i> THREADS</span>
+                <span class="social-label"><i class="fa-brands fa-threads"></i>THREADS</span>
                 <span class="social-handle">@drew</span>
             </a>
 
             <a href="https://facebook.com" target="_blank" class="social-item">
-                <span class="social-label"><i class="fa-brands fa-facebook-f"></i> FACEBOOK</span>
+                <span class="social-label"><i class="fa-brands fa-facebook-f"></i>FACEBOOK</span>
                 <span class="social-handle">@drew</span>
             </a>
             <a href="https://bluesky.app" target="_blank" class="social-item">
-                <span class="social-label"><i class="fa-solid fa-cloud"></i> BLUESKY</span>
+                <span class="social-label"><i class="fa-solid fa-cloud"></i>BLUESKY</span>
                 <span class="social-handle">@drew</span>
             </a>
 
             <a href="https://reddit.com" target="_blank" class="social-item">
-                <span class="social-label"><i class="fa-brands fa-reddit-alien"></i> REDDIT</span>
+                <span class="social-label"><i class="fa-brands fa-reddit-alien"></i>REDDIT</span>
                 <span class="social-handle">u/drew</span>
             </a>
             <a href="https://twitch.tv" target="_blank" class="social-item">
-                <span class="social-label"><i class="fa-brands fa-twitch"></i> TWITCH</span>
+                <span class="social-label"><i class="fa-brands fa-twitch"></i>TWITCH</span>
                 <span class="social-handle">@drew</span>
             </a>
 
             <a href="https://discord.com" target="_blank" class="social-item">
-                <span class="social-label"><i class="fa-brands fa-discord"></i> DISCORD</span>
+                <span class="social-label"><i class="fa-brands fa-discord"></i>DISCORD</span>
                 <span class="social-handle">@drew</span>
             </a>
             <a href="https://linkedin.com" target="_blank" class="social-item">
-                <span class="social-label"><i class="fa-brands fa-linkedin-in"></i> LINKEDIN</span>
+                <span class="social-label"><i class="fa-brands fa-linkedin-in"></i>LINKEDIN</span>
                 <span class="social-handle">/in/andrewhillier</span>
             </a>
 
             <a href="https://youtube.com" target="_blank" class="social-item">
-                <span class="social-label"><i class="fa-brands fa-youtube"></i> YOUTUBE</span>
+                <span class="social-label"><i class="fa-brands fa-youtube"></i>YOUTUBE</span>
                 <span class="social-handle">@drew</span>
             </a>
             <a href="https://snapchat.com" target="_blank" class="social-item">
-                <span class="social-label"><i class="fa-brands fa-snapchat"></i> SNAPCHAT</span>
-                <span class="social-handle">@drew</span>
-            </a>
 
-            <a href="https://tiktok.com" target="_blank" class="social-item">
-                <span class="social-label"><i class="fa-brands fa-tiktok"></i> TIKTOK</span>
-                <span class="social-handle">@drew</span>
-            </a>
-            <a href="https://telegram.org" target="_blank" class="social-item">
-                <span class="social-label"><i class="fa-solid fa-paper-plane"></i> TELEGRAM</span>
-                <span class="social-handle">@drew</span>
-            </a>
-        </div>
+SNAPCHAT
+@drew
+TIKTOK
+@drew
 
-    </div>
 
-    <script>
-        const canvas = document.getElementById('stars');
-        const ctx = canvas.getContext('2d');
+TELEGRAM
+@drew
 
-        function resize() {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-        }
-        resize();
-        window.addEventListener('resize', resize);
+SYS_LOAD: 100% // [A.H.]
+const canvas = document.getElementById('stars');
+const ctx = canvas.getContext('2d');
+function resize() {
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+}
+resize();
+window.addEventListener('resize', resize);
+// Cyberpunk Synthwave Neon Blue Starfield Config
+const numStars = 140;
+const stars = [];
+for (let i = 0; i < numStars; i++) {
+stars.push({
+x: Math.random() * 2 - 1,
+y: Math.random() * 2 - 1,
+z: Math.random()
+});
+}
+function animate() {
+ctx.fillStyle = '#03070d';
+ctx.fillRect(0, 0, canvas.width, canvas.height);
+const cx = canvas.width / 2;
+const cy = canvas.height / 2;
+// Deep cyan star trails
+ctx.fillStyle = '#00f3ff';
+for (let i = 0; i < numStars; i++) {
+const star = stars[i];
+star.z -= 0.004;
+if (star.z <= 0) {
+star.x = Math.random() * 2 - 1;
+star.y = Math.random() * 2 - 1;
+star.z = 1;
+}
+const px = (star.x / star.z) * cx + cx;
+const py = (star.y / star.z) * cy + cy;
+const size = (1 - star.z) * 3.5;
+if (px >= 0 && px <= canvas.width && py >= 0 && py <= canvas.height) {
+ctx.beginPath();
+ctx.arc(px, py, size, 0, Math.PI * 2);
+ctx.fill();
+}
+}
+requestAnimationFrame(animate);
+}
+animate();
 
-        // Retro Starfield Flight Config
-        const numStars = 150;
-        const stars = [];
 
-        for (let i = 0; i < numStars; i++) {
-            stars.push({
-                x: Math.random() * 2 - 1,
-                y: Math.random() * 2 - 1,
-                z: Math.random()
-            });
-        }
 
-        function animate() {
-            ctx.fillStyle = '#050b06';
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-            const cx = canvas.width / 2;
-            const cy = canvas.height / 2;
-
-            ctx.fillStyle = '#00FF41';
-
-            for (let i = 0; i < numStars; i++) {
-                const star = stars[i];
-                star.z -= 0.005; // Fly forward speed
-
-                if (star.z <= 0) {
-                    star.x = Math.random() * 2 - 1;
-                    star.y = Math.random() * 2 - 1;
-                    star.z = 1;
-                }
-
-                // 3D Perspective math projection
-                const px = (star.x / star.z) * cx + cx;
-                const py = (star.y / star.z) * cy + cy;
-                const size = (1 - star.z) * 4;
-
-                if (px >= 0 && px <= canvas.width && py >= 0 && py <= canvas.height) {
-                    ctx.beginPath();
-                    ctx.arc(px, py, size, 0, Math.PI * 2);
-                    ctx.fill();
-                }
-            }
-
-            requestAnimationFrame(animate);
-        }
-
-        animate();
-    </script>
-</body>
-</html>
