@@ -8,11 +8,11 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
-            --neon-cyan: #00f3ff;
-            --neon-magenta: #ff0055;
             --acid-green: #39ff14;
-            --dark-panel: rgba(10, 16, 26, 0.9);
-            --bg-solid: #03070d;
+            --trippy-pink: #ff007f;
+            --electric-purple: #9d00ff;
+            --cosmic-blue: #00f0ff;
+            --dark-void: #020205;
         }
 
         * {
@@ -22,8 +22,8 @@
         }
 
         body {
-            background-color: var(--bg-solid);
-            color: var(--neon-cyan);
+            background-color: var(--dark-void);
+            color: var(--cosmic-blue);
             font-family: 'Share Tech Mono', monospace;
             min-height: 100vh;
             display: flex;
@@ -34,6 +34,7 @@
             position: relative;
         }
 
+        /* Fullscreen Kaleidoscope Hypno-Canvas Background */
         canvas {
             position: fixed;
             top: 0;
@@ -44,167 +45,156 @@
             pointer-events: none;
         }
 
+        /* Screen Scanline Overlay */
         body::before {
             content: " ";
             display: block;
             position: fixed;
             top: 0; left: 0; bottom: 0; right: 0;
-            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.3) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.05), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.05));
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.4) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.08), rgba(0, 255, 0, 0.04), rgba(0, 0, 255, 0.08));
             z-index: 10;
-            background-size: 100% 4px, 6px 100%;
+            background-size: 100% 6px, 6px 100%;
             pointer-events: none;
         }
 
-        body::after {
-            content: " ";
-            display: block;
-            position: fixed;
-            top: 0; left: 0; bottom: 0; right: 0;
-            background: radial-gradient(circle, rgba(0,0,0,0) 40%, rgba(3, 7, 13, 0.7) 100%);
-            z-index: 11;
-            pointer-events: none;
-        }
-
-        .cyber-container {
+        /* Psychedelic Melting Container */
+        .psycho-container {
             width: 100%;
-            max-width: 500px;
-            background: var(--dark-panel);
-            border-left: 4px solid var(--neon-magenta);
-            border-right: 1px solid rgba(0, 243, 255, 0.2);
-            border-top: 1px solid rgba(0, 243, 255, 0.2);
-            border-bottom: 1px solid rgba(0, 243, 255, 0.2);
-            padding: 20px;
+            max-width: 480px;
+            background: rgba(10, 5, 20, 0.85);
+            border: 2px solid var(--trippy-pink);
+            padding: 25px 15px;
             position: relative;
             z-index: 2;
-            box-shadow: 0 0 30px rgba(0, 243, 255, 0.1), inset 0 0 15px rgba(0, 243, 255, 0.05);
-            clip-path: polygon(0 0, 93% 0, 100% 4%, 100% 100%, 7% 100%, 0 96%);
-            margin-top: 10px;
-            margin-bottom: 30px;
-            animation: float 6s ease-in-out infinite;
+            box-shadow: 0 0 40px var(--electric-purple), inset 0 0 20px rgba(0, 240, 255, 0.2);
+            margin-top: 15px;
+            margin-bottom: 40px;
+            animation: containerFloat 8s ease-in-out infinite;
+            border-radius: 20px 4px 20px 4px;
         }
 
-        @keyframes float {
-            0%, 100% { transform: translateY(0px) rotate(0deg); }
-            50% { transform: translateY(-10px) rotate(0.5deg); }
+        @keyframes containerFloat {
+            0%, 100% { transform: translateY(0) rotate(0deg); border-color: var(--trippy-pink); }
+            33% { transform: translateY(-6px) rotate(0.5deg); border-color: var(--acid-green); }
+            66% { transform: translateY(4px) rotate(-0.5deg); border-color: var(--cosmic-blue); }
         }
 
-        .corner-tag {
-            position: absolute;
-            top: 6px;
-            left: 12px;
-            font-size: 11px;
-            letter-spacing: 2px;
-            color: rgba(0, 243, 255, 0.4);
-        }
-
-        .main-header {
+        .fluid-header {
             text-align: center;
-            font-size: 42px;
+            position: relative;
+            margin-bottom: 30px;
+        }
+
+        /* Breathing Name Heading */
+        .main-header {
+            font-size: 38px;
             font-weight: 900;
             color: #fff;
             text-transform: uppercase;
-            letter-spacing: 3px;
-            margin: 25px 0 25px 0;
+            letter-spacing: 4px;
             position: relative;
-            text-shadow: 2px 2px var(--neon-magenta), -2px -2px var(--neon-cyan);
-            line-height: 1.1;
-            animation: textWobble 4s ease-in-out infinite;
+            animation: meltText 4s ease-in-out infinite;
+            text-shadow: 3px 3px var(--trippy-pink), -3px -3px var(--cosmic-blue);
         }
 
-        @keyframes textWobble {
-            0%, 100% { transform: skewX(0deg); text-shadow: 2px 2px var(--neon-magenta), -2px -2px var(--neon-cyan); }
-            50% { transform: skewX(-3deg) scale(1.02); text-shadow: -2px 2px var(--acid-green), 2px -2px var(--neon-magenta); }
+        @keyframes meltText {
+            0%, 100% { transform: scale(1) skewX(0deg); text-shadow: 3px 3px var(--trippy-pink), -3px -3px var(--cosmic-blue); }
+            50% { transform: scale(1.05) skewX(-4deg); text-shadow: -3px 3px var(--acid-green), 3px -3px var(--electric-purple); color: var(--cosmic-blue); }
+        }
+
+        .header-decor {
+            font-size: 24px;
+            display: block;
+            margin-top: 5px;
+            animation: spinDecor 6s linear infinite;
+        }
+
+        @keyframes spinDecor {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
 
         .social-grid {
             display: flex;
             flex-direction: column;
-            gap: 12px;
+            gap: 14px;
         }
 
+        /* Interacting Reality Link Modules */
         .social-item {
             display: flex;
             justify-content: center;
             align-items: center;
-            background: rgba(13, 22, 37, 0.85);
-            border: 1px solid rgba(0, 243, 255, 0.25);
-            padding: 16px;
+            background: rgba(20, 10, 35, 0.9);
+            border: 1px solid rgba(0, 240, 255, 0.3);
+            padding: 18px;
             text-decoration: none;
-            color: var(--neon-cyan);
+            color: var(--cosmic-blue);
             position: relative;
+            border-radius: 8px;
             transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
             overflow: hidden;
-            border-radius: 6px;
         }
 
-        .social-item::before {
-            content: '';
+        .social-item::after {
+            content: '🌀';
             position: absolute;
-            bottom: 0; right: 0;
-            width: 0; height: 0;
-            border-style: solid;
-            border-width: 0 0 8px 8px;
-            border-color: transparent transparent var(--neon-cyan) transparent;
-            transition: all 0.2s ease;
+            right: 15px;
+            opacity: 0.2;
+            transition: all 0.3s ease;
         }
 
+        /* Trip Hover Adjustments */
         .social-item:hover {
             color: #fff;
-            background-color: var(--neon-magenta);
+            background-color: var(--electric-purple);
             border-color: var(--acid-green);
-            box-shadow: 0 0 25px var(--acid-green);
+            box-shadow: 0 0 25px var(--acid-green), inset 0 0 10px #fff;
             transform: scale(1.03) rotate(1deg);
         }
 
-        .social-item:nth-child(even):hover {
-            background-color: var(--neon-cyan);
-            color: var(--bg-solid);
-            transform: scale(1.03) rotate(-1deg);
-            box-shadow: 0 0 25px var(--neon-magenta);
+        .social-item:hover::after {
+            opacity: 1;
+            transform: rotate(360deg) scale(1.4);
         }
 
-        .social-item:hover::before {
-            border-color: transparent transparent var(--neon-magenta) transparent;
+        .social-item:nth-child(even):hover {
+            background-color: var(--trippy-pink);
+            transform: scale(1.03) rotate(-1deg);
+            box-shadow: 0 0 25px var(--cosmic-blue), inset 0 0 10px #fff;
         }
 
         .social-label {
             display: flex;
             align-items: center;
-            gap: 14px;
+            gap: 12px;
             font-size: 22px;
             font-weight: bold;
             letter-spacing: 2px;
         }
 
         .social-label i {
-            width: 24px;
-            text-align: center;
-            color: var(--neon-magenta);
-            transition: all 0.3s ease;
+            font-size: 20px;
+            color: var(--trippy-pink);
+            transition: transform 0.3s ease;
         }
 
         .social-item:hover i {
-            transform: scale(1.3) rotate(15deg);
+            transform: scale(1.3) rotate(-20deg);
             color: var(--acid-green);
         }
 
         @media (min-width: 768px) {
             body {
                 align-items: center;
-                padding: 30px;
+                padding: 40px;
             }
-            .cyber-container {
-                padding: 35px;
-                margin-top: 0;
-                margin-bottom: 0;
+            .psycho-container {
+                padding: 40px;
             }
             .main-header {
                 font-size: 54px;
-                margin-bottom: 30px;
-                letter-spacing: 5px;
-            }
-            .social-item {
-                padding: 14px;
+                letter-spacing: 6px;
             }
             .social-label {
                 font-size: 24px;
@@ -214,74 +204,115 @@
 </head>
 <body>
 
-    <canvas id="trip-plasma"></canvas>
+    <!-- Plasma Morphing Background Layer -->
+    <canvas id="trip-matrix"></canvas>
 
-    <div class="cyber-container">
-        <div class="corner-tag">NET.CORE // UNSECURED_RELAY 🍄</div>
+    <div class="psycho-container">
         
-        <h1 class="main-header">🍄 ANDREW HILLIER 🌀</h1>
+        <div class="fluid-header">
+            <span class="header-decor">🍄✨👁️✨🍄</span>
+            <h1 class="main-header">ANDREW HILLIER</h1>
+        </div>
 
         <div class="social-grid">
-            <a href="mailto:email@andrewhillier.ca" class="social-item">
-                <span class="social-label"><i class="fa-regular fa-envelope"></i>👽 EMAIL 🪐</span>
+            <a href="mailto:email@andrewhillier.ca" class="social-item" data-text="👽 EMAIL 🪐">
+                <span class="social-label"><i class="fa-regular fa-envelope"></i> <span class="text-node">👽 EMAIL 🪐</span></span>
             </a>
 
-            <a href="https://x.com/drew" target="_blank" class="social-item">
-                <span class="social-label"><i class="fa-brands fa-x-twitter"></i>🌪️ X / TWITTER 🌀</span>
+            <a href="https://x.com/drew" target="_blank" class="social-item" data-text="🌪️ X / TWITTER 🌀">
+                <span class="social-label"><i class="fa-brands fa-x-twitter"></i> <span class="text-node">🌪️ X / TWITTER 🌀</span></span>
             </a>
 
-            <a href="https://instagram.com/drew" target="_blank" class="social-item">
-                <span class="social-label"><i class="fa-brands fa-instagram"></i>🌊 INSTAGRAM 🔮</span>
+            <a href="https://instagram.com/drew" target="_blank" class="social-item" data-text="🌊 INSTAGRAM 🔮">
+                <span class="social-label"><i class="fa-brands fa-instagram"></i> <span class="text-node">🌊 INSTAGRAM 🔮</span></span>
             </a>
 
-            <a href="https://threads.net/@drew" target="_blank" class="social-item">
-                <span class="social-label"><i class="fa-brands fa-threads"></i>🌌 THREADS 🕸️</span>
+            <a href="https://threads.net/@drew" target="_blank" class="social-item" data-text="🌌 THREADS 🕸️">
+                <span class="social-label"><i class="fa-brands fa-threads"></i> <span class="text-node">🌌 THREADS 🕸️</span></span>
             </a>
 
-            <a href="https://facebook.com/drew" target="_blank" class="social-item">
-                <span class="social-label"><i class="fa-brands fa-facebook-f"></i>🎭 FACEBOOK 👁️</span>
+            <a href="https://facebook.com/drew" target="_blank" class="social-item" data-text="🎭 FACEBOOK 👁️">
+                <span class="social-label"><i class="fa-brands fa-facebook-f"></i> <span class="text-node">🎭 FACEBOOK 👁️</span></span>
             </a>
 
-            <a href="https://bluesky.app" target="_blank" class="social-item">
-                <span class="social-label"><i class="fa-solid fa-cloud"></i>BC / BLUESKY ☁️</span>
+            <a href="https://bluesky.app" target="_blank" class="social-item" data-text="🫧 BLUESKY ☁️">
+                <span class="social-label"><i class="fa-solid fa-cloud"></i> <span class="text-node">🫧 BLUESKY ☁️</span></span>
             </a>
 
-            <a href="https://reddit.com/u/drew" target="_blank" class="social-item">
-                <span class="social-label"><i class="fa-brands fa-reddit-alien"></i>☄️ REDDIT U/DREW🛸</span>
+            <a href="https://reddit.com/u/drew" target="_blank" class="social-item" data-text="☄️ REDDIT 🛸">
+                <span class="social-label"><i class="fa-brands fa-reddit-alien"></i> <span class="text-node">☄️ REDDIT 🛸</span></span>
             </a>
 
-            <a href="https://twitch.tv/drew" target="_blank" class="social-item">
-                <span class="social-label"><i class="fa-brands fa-twitch"></i>⚡ TWITCH 🌌</span>
+            <a href="https://twitch.tv/drew" target="_blank" class="social-item" data-text="⚡ TWITCH 🌌">
+                <span class="social-label"><i class="fa-brands fa-twitch"></i> <span class="text-node">⚡ TWITCH 🌌</span></span>
             </a>
 
-            <a href="https://discord.com" target="_blank" class="social-item">
-                <span class="social-label"><i class="fa-brands fa-discord"></i>🧪 DISCORD 🔮</span>
+            <a href="https://discord.com" target="_blank" class="social-item" data-text="🧪 DISCORD 🔮">
+                <span class="social-label"><i class="fa-brands fa-discord"></i> <span class="text-node">🧪 DISCORD 🔮</span></span>
             </a>
 
-            <a href="https://linkedin.com/in/andrewhillier" target="_blank" class="social-item">
-                <span class="social-label"><i class="fa-brands fa-linkedin-in"></i>🧱 LINKEDIN 🧿</span>
+            <a href="https://linkedin.com/in/andrewhillier" target="_blank" class="social-item" data-text="🧱 LINKEDIN 🧿">
+                <span class="social-label"><i class="fa-brands fa-linkedin-in"></i> <span class="text-node">🧱 LINKEDIN 🧿</span></span>
             </a>
 
-            <a href="https://youtube.com" target="_blank" class="social-item">
-                <span class="social-label"><i class="fa-brands fa-youtube"></i>📺 YOUTUBE 💥</span>
+            <a href="https://youtube.com" target="_blank" class="social-item" data-text="📺 YOUTUBE 💥">
+                <span class="social-label"><i class="fa-brands fa-youtube"></i> <span class="text-node">📺 YOUTUBE 💥</span></span>
             </a>
 
-            <a href="https://snapchat.com" target="_blank" class="social-item">
-                <span class="social-label"><i class="fa-brands fa-snapchat"></i>👻 SNAPCHAT 🪞</span>
+            <a href="https://snapchat.com" target="_blank" class="social-item" data-text="👻 SNAPCHAT 🪞">
+                <span class="social-label"><i class="fa-brands fa-snapchat"></i> <span class="text-node">👻 SNAPCHAT 🪞</span></span>
             </a>
 
-            <a href="https://tiktok.com" target="_blank" class="social-item">
-                <span class="social-label"><i class="fa-brands fa-tiktok"></i>🎵 TIKTOK 🤪</span>
+            <a href="https://tiktok.com" target="_blank" class="social-item" data-text="🎵 TIKTOK 🤪">
+                <span class="social-label"><i class="fa-brands fa-tiktok"></i> <span class="text-node">🎵 TIKTOK 🤪</span></span>
             </a>
 
-            <a href="https://telegram.org" target="_blank" class="social-item">
-                <span class="social-label"><i class="fa-solid fa-paper-plane"></i>🎈 TELEGRAM 🍄</span>
+            <a href="https://telegram.org" target="_blank" class="social-item" data-text="🎈 TELEGRAM 🍄">
+                <span class="social-label"><i class="fa-solid fa-paper-plane"></i> <span class="text-node">🎈 TELEGRAM 🍄</span></span>
             </a>
         </div>
+        
     </div>
 
     <script>
-        const canvas = document.getElementById('trip-plasma');
+        // --- 1. THE GLYPH SHIFT SCRAMBLER MOTOR ---
+        const components = "%&#§10?*@$▲▼🌀👁️🍄";
+        const items = document.querySelectorAll('.social-item');
+
+        items.forEach(item => {
+            const node = item.querySelector('.text-node');
+            const primaryString = item.getAttribute('data-text');
+            let interval = null;
+
+            item.addEventListener('mouseenter', () => {
+                let iteration = 0;
+                clearInterval(interval);
+                
+                interval = setInterval(() => {
+                    node.innerText = primaryString.split("")
+                        .map((char, index) => {
+                            if(index < iteration) {
+                                return primaryString[index];
+                            }
+                            return components[Math.floor(Math.random() * components.length)];
+                        })
+                        .join("");
+                    
+                    if(iteration >= primaryString.length) { 
+                        clearInterval(interval);
+                    }
+                    iteration += 1 / 3;
+                }, 25);
+            });
+
+            item.addEventListener('mouseleave', () => {
+                clearInterval(interval);
+                node.innerText = primaryString;
+            });
+        });
+
+        // --- 2. PLASMA MATHEMATICAL VISUALIZER ---
+        const canvas = document.getElementById('trip-matrix');
         const ctx = canvas.getContext('2d');
 
         function resize() {
@@ -292,14 +323,17 @@
         window.addEventListener('resize', resize);
 
         let time = 0;
-
+        
         function animatePlasma() {
-            ctx.fillStyle = 'rgba(3, 7, 13, 0.08)';
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            const width = canvas.width;
+            const height = canvas.height;
+            
+            ctx.fillStyle = 'rgba(2, 2, 5, 0.08)';
+            ctx.fillRect(0, 0, width, height);
 
-            const gridCount = 25;
-            const spacingX = canvas.width / gridCount;
-            const spacingY = canvas.height / gridCount;
+            const gridCount = 28;
+            const spacingX = width / gridCount;
+            const spacingY = height / gridCount;
 
             time += 0.02;
 
@@ -313,26 +347,26 @@
                     const wave3 = Math.sin((x + y) * 0.1 + time * 0.5);
                     const totalWave = (wave1 + wave2 + wave3) / 3;
 
-                    const radius = Math.abs(totalWave) * 18 + 2;
-                    const offsetX = Math.sin(y + time) * 14;
-                    const offsetY = Math.cos(x - time) * 14;
+                    const radius = Math.abs(totalWave) * 16 + 2;
+                    const offsetX = Math.sin(y + time) * 12;
+                    const offsetY = Math.cos(x - time) * 12;
 
                     const r = Math.floor(127 + 127 * Math.sin(time + posX * 0.002));
                     const g = Math.floor(127 + 127 * Math.cos(time + posY * 0.002));
                     const b = Math.floor(200 + 55 * Math.sin(time));
 
-                    ctx.fillStyle = `rgba(${r}, ${g}, ${b}, 0.22)`;
+                    ctx.fillStyle = `rgba(${r}, ${g}, ${b}, 0.25)`;
                     
                     ctx.beginPath();
                     ctx.arc(posX + offsetX, posY + offsetY, radius, 0, Math.PI * 2);
                     ctx.fill();
 
-                    if (Math.random() > 0.998) {
-                        ctx.strokeStyle = 'rgba(57, 255, 20, 0.3)';
+                    if (Math.random() > 0.997) {
+                        ctx.strokeStyle = 'rgba(57, 255, 20, 0.4)';
                         ctx.lineWidth = 1;
                         ctx.beginPath();
                         ctx.moveTo(posX, posY);
-                        ctx.lineTo(posX + offsetX * 3, posY + offsetY * 3);
+                        ctx.lineTo(posX + offsetX * 4, posY + offsetY * 4);
                         ctx.stroke();
                     }
                 }
