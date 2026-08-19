@@ -1,12 +1,9 @@
-
-
-<!DOCTYPE html>
+html<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Andrew Hillier</title>
-    <!-- Sharp tech font -->
     <link href="https://googleapis.com" rel="stylesheet">
     <link rel="stylesheet" href="https://cloudflare.com">
     <style>
@@ -37,7 +34,6 @@
             position: relative;
         }
 
-        /* 3D Flying Starfield Background */
         canvas {
             position: fixed;
             top: 0;
@@ -48,7 +44,6 @@
             pointer-events: none;
         }
 
-        /* Glitchy CRT scanlines and screen distortion overlays */
         body::before {
             content: " ";
             display: block;
@@ -70,7 +65,6 @@
             pointer-events: none;
         }
 
-        /* Cyberpunk UI Terminal Wrapper */
         .cyber-container {
             width: 100%;
             max-width: 950px;
@@ -83,11 +77,9 @@
             position: relative;
             z-index: 2;
             box-shadow: 0 0 30px rgba(0, 243, 255, 0.1), inset 0 0 15px rgba(0, 243, 255, 0.05);
-            /* Angular cutout effect common in cyberpunk designs */
             clip-path: polygon(0 0, 95% 0, 100% 5%, 100% 100%, 5% 100%, 0 95%);
         }
 
-        /* Corner accents to make it look like a high-tech screen display */
         .corner-tag {
             position: absolute;
             top: 6px;
@@ -97,16 +89,6 @@
             color: rgba(0, 243, 255, 0.4);
         }
 
-        .corner-decor {
-            position: absolute;
-            bottom: 8px;
-            right: 15px;
-            font-size: 12px;
-            color: var(--neon-magenta);
-            letter-spacing: 1px;
-        }
-
-        /* Glitch Typography for Name Header */
         .main-header {
             text-align: center;
             font-size: 46px;
@@ -125,7 +107,6 @@
             gap: 14px;
         }
 
-        /* Interactive Cyberpunk Grid Modules */
         .social-item {
             display: flex;
             justify-content: space-between;
@@ -140,7 +121,6 @@
             overflow: hidden;
         }
 
-        /* Subtle angled cuts on button corners */
         .social-item::before {
             content: '';
             position: absolute;
@@ -164,7 +144,6 @@
             border-color: transparent transparent var(--neon-magenta) transparent;
         }
 
-        /* Highlights row yellow on hover to give arcade panel vibe */
         .social-item:active {
             background-color: var(--neon-yellow);
             border-color: var(--neon-yellow);
@@ -195,7 +174,6 @@
             opacity: 0.9;
         }
 
-        /* Desktop Layout Modifiers */
         @media (min-width: 768px) {
             body {
                 padding: 40px;
@@ -227,7 +205,7 @@
     <canvas id="stars"></canvas>
 
     <div class="cyber-container">
-        <div class="corner-tag">NET.CORE // UNSECURED_RELAY</div>
+        <div class="corner-tag">NET.CORE // CONNECTED</div>
         
         <h1 class="main-header">ANDREW HILLIER</h1>
 
@@ -282,62 +260,24 @@
                 <span class="social-handle">@drew</span>
             </a>
             <a href="https://snapchat.com" target="_blank" class="social-item">
+                <span class="social-label"><i class="fa-brands fa-snapchat"></i>SNAPCHAT</span>
+                <span class="social-handle">@drew</span>
+            </a>
 
-SNAPCHAT
-@drew
-TIKTOK
-@drew
+            <a href="https://tiktok.com" target="_blank" class="social-item">
+                <span class="social-label"><i class="fa-brands fa-tiktok"></i>TIKTOK</span>
+                <span class="social-handle">@drew</span>
+            </a>
+            <a href="https://telegram.org" target="_blank" class="social-item">
+                <span class="social-label"><i class="fa-solid fa-paper-plane"></i>TELEGRAM</span>
+                <span class="social-handle">@drew</span>
+            </a>
+        </div>
+    </div>
 
+    <script>
+        const canvas = document.getElementById('stars');
+        const ctx = canvas.getContext('2d');
 
-TELEGRAM
-@drew
-
-SYS_LOAD: 100% // [A.H.]
-const canvas = document.getElementById('stars');
-const ctx = canvas.getContext('2d');
-function resize() {
-canvas.width = window.innerWidth;
-canvas.height = window.innerHeight;
-}
-resize();
-window.addEventListener('resize', resize);
-// Cyberpunk Synthwave Neon Blue Starfield Config
-const numStars = 140;
-const stars = [];
-for (let i = 0; i < numStars; i++) {
-stars.push({
-x: Math.random() * 2 - 1,
-y: Math.random() * 2 - 1,
-z: Math.random()
-});
-}
-function animate() {
-ctx.fillStyle = '#03070d';
-ctx.fillRect(0, 0, canvas.width, canvas.height);
-const cx = canvas.width / 2;
-const cy = canvas.height / 2;
-// Deep cyan star trails
-ctx.fillStyle = '#00f3ff';
-for (let i = 0; i < numStars; i++) {
-const star = stars[i];
-star.z -= 0.004;
-if (star.z <= 0) {
-star.x = Math.random() * 2 - 1;
-star.y = Math.random() * 2 - 1;
-star.z = 1;
-}
-const px = (star.x / star.z) * cx + cx;
-const py = (star.y / star.z) * cy + cy;
-const size = (1 - star.z) * 3.5;
-if (px >= 0 && px <= canvas.width && py >= 0 && py <= canvas.height) {
-ctx.beginPath();
-ctx.arc(px, py, size, 0, Math.PI * 2);
-ctx.fill();
-}
-}
-requestAnimationFrame(animate);
-}
-animate();
-
-
-
+        function resize() {
+Use code with caution.canvas.width = window.innerWidth;canvas.height = window.innerHeight;}resize();window.addEventListener('resize', resize);const numStars = 140;const stars = [];for (let i = 0; i < numStars; i++) {stars.push({x: Math.random() * 2 - 1,y: Math.random() * 2 - 1,z: Math.random()});}function animate() {ctx.fillStyle = '#03070d';ctx.fillRect(0, 0, canvas.width, canvas.height);const cx = canvas.width / 2;const cy = canvas.height / 2;ctx.fillStyle = '#00f3ff';for (let i = 0; i < numStars; i++) {const star = stars[i];star.z -= 0.004;if (star.z <= 0) {star.x = Math.random() * 2 - 1;star.y = Math.random() * 2 - 1;star.z = 1;}const px = (star.x / star.z) * cx + cx;const py = (star.y / star.z) * cy + cy;const size = (1 - star.z) * 3.5;if (px >= 0 && px <= canvas.width && py >= 0 && py <= canvas.height) {ctx.beginPath();ctx.arc(px, py, size, 0, Math.PI * 2);ctx.fill();}}requestAnimationFrame(animate);}animate();
