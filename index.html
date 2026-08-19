@@ -1,11 +1,9 @@
-
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Andrew Hillier - Terminal</title>
+    <title>Andrew Hillier</title>
     <link href="https://googleapis.com" rel="stylesheet">
     <link rel="stylesheet" href="https://cloudflare.com">
     <style>
@@ -24,17 +22,26 @@
             background-color: var(--bg-color);
             color: var(--glow-color);
             font-family: 'VT323', monospace;
-            font-size: 21px;
-            letter-spacing: 0.5px;
             min-height: 100vh;
             display: flex;
-            flex-direction: column;
+            justify-content: center;
             align-items: center;
-            position: relative;
             padding: 15px;
             overflow-x: hidden;
         }
 
+        /* Starfield Canvas Background */
+        canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        /* Retro CRT Glass Overlays */
         body::before {
             content: " ";
             display: block;
@@ -56,67 +63,25 @@
             pointer-events: none;
         }
 
-        canvas {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 0;
-            opacity: 0.15;
-            pointer-events: none;
-        }
-
         .terminal-container {
             width: 100%;
-            max-width: 1000px;
-            display: flex;
-            flex-direction: column;
+            max-width: 900px;
             text-shadow: 0 0 4px rgba(0, 255, 65, 0.6);
             z-index: 2;
         }
 
-        .top-meta {
-            display: flex;
-            flex-direction: column;
-            gap: 2px;
-            font-size: 18px;
-            border-bottom: 1px dashed rgba(0, 255, 65, 0.3);
-            padding-bottom: 8px;
-            margin-bottom: 15px;
-        }
-
         .main-header {
             text-align: center;
-            font-size: 52px;
+            font-size: 56px;
             font-weight: normal;
-            margin: 10px 0 15px 0;
-            text-shadow: 0 0 8px var(--glow-color);
-            line-height: 1.1;
-        }
-
-        .divider {
-            text-align: center;
-            font-size: 18px;
             margin-bottom: 20px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-        }
-        .divider::before, .divider::after {
-            content: "";
-            flex-grow: 1;
-            height: 1px;
-            background-color: var(--glow-color);
-            opacity: 0.3;
+            text-shadow: 0 0 10px var(--glow-color);
         }
 
         .social-grid {
             display: flex;
             flex-direction: column;
             gap: 12px;
-            margin-bottom: 25px;
         }
 
         .social-item {
@@ -124,9 +89,11 @@
             justify-content: space-between;
             align-items: center;
             border: 1px solid rgba(0, 255, 65, 0.4);
-            padding: 10px 15px;
+            background: rgba(5, 11, 6, 0.8);
+            padding: 12px 15px;
             text-decoration: none;
             color: var(--glow-color);
+            transition: all 0.15s ease;
         }
 
         .social-item:hover {
@@ -139,149 +106,50 @@
         .social-label {
             display: flex;
             align-items: center;
-            gap: 10px;
-            font-size: 22px;
-            white-space: nowrap;
+            gap: 12px;
+            font-size: 24px;
         }
 
         .social-label i {
-            width: 20px;
+            width: 24px;
             text-align: center;
         }
 
         .social-handle {
-            font-size: 22px;
+            font-size: 24px;
             max-width: 60%;
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: nowrap;
         }
 
-        .bottom-widgets {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-            margin-bottom: 25px;
-        }
-
-        .widget-box {
-            border: 1px solid var(--glow-color);
-            padding: 15px;
-        }
-
-        .widget-title {
-            font-size: 20px;
-            border-bottom: 1px solid var(--glow-color);
-            margin-bottom: 8px;
-            padding-bottom: 3px;
-            opacity: 0.8;
-        }
-
-        .widget-content {
-            font-size: 20px;
-            line-height: 1.4;
-        }
-
-        .msg-btn {
-            display: inline-block;
-            margin-top: 10px;
-            border: 1px solid var(--glow-color);
-            padding: 4px 12px;
-            text-decoration: none;
-            color: var(--glow-color);
-        }
-        .msg-btn:hover {
-            background-color: var(--glow-color);
-            color: var(--bg-color);
-        }
-
-        .bottom-meta {
-            display: flex;
-            flex-direction: column;
-            gap: 6px;
-            font-size: 16px;
-            border-top: 1px dashed rgba(0, 255, 65, 0.3);
-            padding-top: 10px;
-            text-align: center;
-        }
-
-        .cursor {
-            animation: blink 1s infinite;
-        }
-        @keyframes blink {
-            0%, 49% { opacity: 1; }
-            50%, 100% { opacity: 0; }
-        }
-
+        /* Desktop Layout Rules */
         @media (min-width: 768px) {
-            body {
-                height: 100vh;
-                overflow: hidden;
-                padding: 30px;
-                justify-content: center;
-            }
-            .terminal-container {
-                height: 92vh;
-                justify-content: space-between;
-            }
-            .top-meta {
-                display: flex;
-                flex-direction: row;
-                justify-content: space-between;
-                font-size: 20px;
-            }
             .main-header {
-                font-size: 76px;
-                margin: 10px 0;
-            }
-            .divider {
-                font-size: 20px;
+                font-size: 84px;
+                margin-bottom: 30px;
             }
             .social-grid {
                 display: grid;
                 grid-template-columns: 1fr 1fr;
-                gap: 12px 40px;
+                gap: 15px 30px;
             }
             .social-item {
-                padding: 8px 15px;
+                padding: 10px 20px;
             }
-            .social-label, .social-handle, .widget-title, .widget-content, .msg-btn {
-                font-size: 22px;
-            }
-            .bottom-widgets {
-                display: grid;
-                grid-template-columns: 1fr;
-                gap: 20px;
-            }
-            .widget-box {
-                min-height: auto;
-            }
-            .bottom-meta {
-                display: flex;
-                flex-direction: row;
-                justify-content: space-between;
-                font-size: 18px;
-                text-align: left;
+            .social-label, .social-handle {
+                font-size: 26px;
             }
         }
     </style>
 </head>
 <body>
 
-    <canvas id="matrix"></canvas>
+    <canvas id="stars"></canvas>
 
     <div class="terminal-container">
         
-        <div class="top-meta">
-            <div>USER: ANDREW_HILLIER</div>
-            <div>SYS: AH-01</div>
-            <div>STATUS: ONLINE <span class="cursor">■</span></div>
-            <div>CONNECTION: SECURE</div>
-        </div>
-
         <h1 class="main-header">ANDREW HILLIER</h1>
-
-        <div class="divider">CONTACT & CONNECT</div>
 
         <div class="social-grid">
             <a href="mailto:email@andrewhillier.ca" class="social-item">
@@ -322,84 +190,92 @@
 
             <a href="https://discord.com" target="_blank" class="social-item">
                 <span class="social-label"><i class="fa-brands fa-discord"></i> DISCORD</span>
+                <span class="social-handle">@drew</span>
+            </a>
+            <a href="https://linkedin.com" target="_blank" class="social-item">
+                <span class="social-label"><i class="fa-brands fa-linkedin-in"></i> LINKEDIN</span>
+                <span class="social-handle">/in/andrewhillier</span>
+            </a>
 
-@drew
+            <a href="https://youtube.com" target="_blank" class="social-item">
+                <span class="social-label"><i class="fa-brands fa-youtube"></i> YOUTUBE</span>
+                <span class="social-handle">@drew</span>
+            </a>
+            <a href="https://snapchat.com" target="_blank" class="social-item">
+                <span class="social-label"><i class="fa-brands fa-snapchat"></i> SNAPCHAT</span>
+                <span class="social-handle">@drew</span>
+            </a>
 
+            <a href="https://tiktok.com" target="_blank" class="social-item">
+                <span class="social-label"><i class="fa-brands fa-tiktok"></i> TIKTOK</span>
+                <span class="social-handle">@drew</span>
+            </a>
+            <a href="https://telegram.org" target="_blank" class="social-item">
+                <span class="social-label"><i class="fa-solid fa-paper-plane"></i> TELEGRAM</span>
+                <span class="social-handle">@drew</span>
+            </a>
+        </div>
 
-LINKEDIN
-/in/andrewhillier
-YOUTUBE
-@drew
+    </div>
 
+    <script>
+        const canvas = document.getElementById('stars');
+        const ctx = canvas.getContext('2d');
 
-SNAPCHAT
-@drew
-TIKTOK
-@drew
+        function resize() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        resize();
+        window.addEventListener('resize', resize);
 
+        // Retro Starfield Flight Config
+        const numStars = 150;
+        const stars = [];
 
-TELEGRAM
-@drew
+        for (let i = 0; i < numStars; i++) {
+            stars.push({
+                x: Math.random() * 2 - 1,
+                y: Math.random() * 2 - 1,
+                z: Math.random()
+            });
+        }
 
-CONTACT
+        function animate() {
+            ctx.fillStyle = '#050b06';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-WANT TO WORK TOGETHER? SEND A MESSAGE.
+            const cx = canvas.width / 2;
+            const cy = canvas.height / 2;
 
-> SEND MESSAGE
+            ctx.fillStyle = '#00FF41';
 
+            for (let i = 0; i < numStars; i++) {
+                const star = stars[i];
+                star.z -= 0.005; // Fly forward speed
 
-© 2026 ANDREW HILLIER
-AH-01:~ $ ■
-ALL SYSTEMS OPERATIONAL
-BOOT TIME: --:--:--
+                if (star.z <= 0) {
+                    star.x = Math.random() * 2 - 1;
+                    star.y = Math.random() * 2 - 1;
+                    star.z = 1;
+                }
 
-function updateClock() {
-const now = new Date();
-const timeString = 'BOOT TIME: ' +
-String(now.getHours()).padStart(2, '0') + ':' +
-String(now.getMinutes()).padStart(2, '0') + ':' +
-String(now.getSeconds()).padStart(2, '0');
-document.getElementById('clock').textContent = timeString;
-}
-setInterval(updateClock, 1000);
-updateClock();
-const canvas = document.getElementById('matrix');
-const ctx = canvas.getContext('2d');
-function resizeCanvas() {
-canvas.width = window.innerWidth;
-canvas.height = window.innerHeight;
-}
-resizeCanvas();
-window.addEventListener('resize', resizeCanvas);
-const katakana = 'ｱｲｳｴｵｶｷｸｹｺｻｼｽｾｿﾀﾁﾂﾃﾄﾅﾆﾇﾈﾉﾊﾋﾌﾍﾎﾏﾐﾑﾒﾓﾔﾕﾖﾗﾘﾙﾚﾛﾜﾝ1234567890XYZ';
-const alphabet = katakana.split('');
-const fontSize = 16;
-let columns = canvas.width / fontSize;
-const rainDrops = [];
-for (let x = 0; x < columns; x++) {
-rainDrops[x] = 1;
-}
-function draw() {
-ctx.fillStyle = 'rgba(5, 11, 6, 0.05)';
-ctx.fillRect(0, 0, canvas.width, canvas.height);
-ctx.fillStyle = '#00FF41';
-ctx.font = fontSize + 'px monospace';
-columns = canvas.width / fontSize;
-if (rainDrops.length < columns) {
-for (let i = rainDrops.length; i < columns; i++) {
-rainDrops[i] = 1;
-}
-}
-for (let i = 0; i < rainDrops.length; i++) {
-const text = alphabet[Math.floor(Math.random() * alphabet.length)];
-ctx.fillText(text, i * fontSize, rainDrops[i] * fontSize);
-if (rainDrops[i] * fontSize > canvas.height && Math.random() > 0.975) {
-rainDrops[i] = 0;
-}
-rainDrops[i]++;
-}
-}
-setInterval(draw, 30);
+                // 3D Perspective math projection
+                const px = (star.x / star.z) * cx + cx;
+                const py = (star.y / star.z) * cy + cy;
+                const size = (1 - star.z) * 4;
 
+                if (px >= 0 && px <= canvas.width && py >= 0 && py <= canvas.height) {
+                    ctx.beginPath();
+                    ctx.arc(px, py, size, 0, Math.PI * 2);
+                    ctx.fill();
+                }
+            }
 
+            requestAnimationFrame(animate);
+        }
 
+        animate();
+    </script>
+</body>
+</html>
