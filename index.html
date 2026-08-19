@@ -29,13 +29,24 @@
       position: relative;
     }
 
+    /* Starfield Canvas Background */
+    #starfield {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 1;
+      opacity: 0.6; /* Keeps stars subtle behind the text */
+    }
+
     /* Screen Curvature & Vignette */
     body::before {
       content: " ";
       display: block;
       position: absolute;
       top: 0; left: 0; bottom: 0; right: 0;
-      background: radial-gradient(circle at center, transparent 60%, rgba(0, 0, 0, 0.85) 100%);
+      background: radial-gradient(circle at center, transparent 50%, rgba(0, 0, 0, 0.9) 100%);
       pointer-events: none;
       z-index: 10;
     }
@@ -54,7 +65,7 @@
 
     .container {
       text-align: center;
-      z-index: 2;
+      z-index: 5;
       padding: 20px;
     }
 
@@ -147,6 +158,9 @@
 </head>
 <body>
 
+  <!-- Starfield Canvas -->
+  <canvas id="starfield"></canvas>
+
   <div class="container">
     <div id="scramble-text" class="title">ANDREW HILLIER</div>
     <button class="contact-btn" onclick="toggleModal(true)">[ CONTACT ]</button>
@@ -161,14 +175,94 @@
   </div>
 
   <script>
+    /* --- STARFIELD ANIMATION --- */
+    const canvas = document.getElementById("starfield");
+    const ctx = canvas.getContext("2d");
+
+    let stars = [];
+    const numStars = 400;
+
+    function resizeCanvas() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    }
+
+    class Star {
+      constructor() {
+        this.reset();
+      }
+
+      reset() {
+        this.x = (Math.random() - 0.5) * canvas.width * 2;
+        this.y = (Math.random() - 0.5) * canvas.height * 2;
+        this.z = Math.random() * canvas.width;
+        this.pz = this.z;
+      }
+
+      update() {
+        this.z -= 2; // Speed of forward movement
+        if (this.z <= 0) {
+          this.reset();
+          this.z = canvas.width;
+          this.pz = this.z;
+        }
+      }
+
+      draw() {
+        const cx = canvas.width / 2;
+        const cy = canvas.height / 2;
+
+        const x = (this.x / this.z) * (canvas.width / 2) + cx;
+        const y = (this.y / this.z) * (canvas.height / 2) + cy;
+
+        const px = (this.x / this.pz) * (canvas.width / 2) + cx;
+        const py = (this.y / this.pz) * (canvas.height / 2) + cy;
+
+        this.pz = this.z;
+
+        if (x >= 0 && x <= canvas.width && y >= 0 && y <= canvas.height) {
+          const alpha = 1 - this.z / canvas.width;
+          ctx.strokeStyle = `rgba(51, 255, 51, ${alpha})`; // Matching CRT Green
+          ctx.lineWidth = (1 - this.z / canvas.width) * 1.5;
+          ctx.beginPath();
+          ctx.moveTo(px, py);
+          ctx.lineTo(x, y);
+          ctx.stroke();
+        }
+      }
+    }
+
+    function initStars() {
+      resizeCanvas();
+      stars = [];
+      for (let i = 0; i < numStars; i++) {
+        stars.push(new Star());
+      }
+    }
+
+    function animateStars() {
+      ctx.fillStyle = "rgba(0, 0, 0, 0.25)"; // Trails effect
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+      for (let star of stars) {
+        star.update();
+        star.draw();
+      }
+
+      requestAnimationFrame(animateStars);
+    }
+
+    window.addEventListener("resize", resizeCanvas);
+    initStars();
+    animateStars();
+
+    /* --- TEXT SCRAMBLE ENGINE --- */
     const targetText = "ANDREW HILLIER";
     const el = document.getElementById("scramble-text");
 
-    // Leet replacements and glitch symbols
     const leetMap = { 'A': ['@', '4'], 'E': ['3'], 'I': ['1', '!'], 'O': ['0'], 'R': ['R', 'r'], 'S': ['5'] };
     const glitchChars = "0137_/#\\|@$%&*";
 
-    // Static preset states from your sequence for variety
     const presets = [
       "ANDREW HILLIER", "ANDREW HILILER", "ANDEW HIRLIER", "ANDR3W H1LLI3R",
       "@ndr3w hi11iEr", "ANDREW HILL1ER", "4NDR3W HILLIER", "ANDRWE HILLIER",
@@ -202,15 +296,13 @@
     }
 
     function runScrambleCycle() {
-      // Hold clean target text for 2.5 seconds
       el.textContent = targetText;
       
       setTimeout(() => {
         let frame = 0;
-        const totalFrames = 30 + Math.floor(Math.random() * 20); // 30-50 fast rapid shifts
+        const totalFrames = 30 + Math.floor(Math.random() * 20);
         
         const interval = setInterval(() => {
-          // Mix predefined leet list with fully algorithmic glitched frames
           if (Math.random() < 0.6) {
             el.textContent = presets[Math.floor(Math.random() * presets.length)];
           } else {
@@ -221,9 +313,9 @@
           if (frame >= totalFrames) {
             clearInterval(interval);
             el.textContent = targetText;
-            runScrambleCycle(); // Loop next burst
+            runScrambleCycle();
           }
-        }, 60); // Speed of character switches (ms)
+        }, 60);
       }, 2500);
     }
 
@@ -231,7 +323,6 @@
       document.getElementById('contact-modal').style.display = show ? 'flex' : 'none';
     }
 
-    // Start loop
     runScrambleCycle();
   </script>
 </body>
