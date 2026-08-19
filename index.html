@@ -1,5 +1,3 @@
-
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -36,7 +34,7 @@
             position: relative;
         }
 
-        /* CRT Screen Effects */
+        /* CRT Screen Overlay Effects */
         body::before {
             content: " ";
             display: block;
@@ -99,7 +97,7 @@
             content: "";
             position: absolute;
             top: 50%;
-            width: 38%;
+            width: 35%;
             height: 1px;
             background-color: var(--glow-color);
             opacity: 0.5;
@@ -149,7 +147,7 @@
             font-size: 22px;
         }
 
-        /* Bottom Widgets */
+        /* Bottom Widgets Layout */
         .bottom-widgets {
             display: grid;
             grid-template-columns: 1fr 1fr 1fr;
@@ -160,7 +158,7 @@
         .widget-box {
             border: 1px solid var(--glow-color);
             padding: 15px;
-            min-height: 130px;
+            min-height: 140px;
         }
 
         .widget-title {
@@ -173,7 +171,7 @@
 
         .widget-content {
             font-size: 20px;
-            line-height: 1.3;
+            line-height: 1.4;
         }
 
         /* Styled button inside Contact Box */
@@ -228,17 +226,17 @@
 
         <!-- TWO COLUMN LINKS GRID -->
         <div class="social-grid">
-            <!-- Left Column -->
+            <!-- Row 1 -->
             <a href="mailto:email@andrewhillier.ca" class="social-item">
                 <span class="social-label"><i class="fa-regular fa-envelope"></i> EMAIL</span>
                 <span class="social-handle">email@andrewhillier.ca</span>
             </a>
-            <!-- Right Column -->
             <a href="https://x.com" target="_blank" class="social-item">
                 <span class="social-label"><i class="fa-brands fa-x-twitter"></i> X / TWITTER</span>
                 <span class="social-handle">@drew</span>
             </a>
 
+            <!-- Row 2 -->
             <a href="https://instagram.com" target="_blank" class="social-item">
                 <span class="social-label"><i class="fa-brands fa-instagram"></i> INSTAGRAM</span>
                 <span class="social-handle">@drew</span>
@@ -248,6 +246,7 @@
                 <span class="social-handle">@drew</span>
             </a>
 
+            <!-- Row 3 -->
             <a href="https://facebook.com" target="_blank" class="social-item">
                 <span class="social-label"><i class="fa-brands fa-facebook-f"></i> FACEBOOK</span>
                 <span class="social-handle">@drew</span>
@@ -257,6 +256,7 @@
                 <span class="social-handle">@drew</span>
             </a>
 
+            <!-- Row 4 -->
             <a href="https://reddit.com" target="_blank" class="social-item">
                 <span class="social-label"><i class="fa-brands fa-reddit-alien"></i> REDDIT</span>
                 <span class="social-handle">u/drew</span>
@@ -266,6 +266,7 @@
                 <span class="social-handle">@drew</span>
             </a>
 
+            <!-- Row 5 -->
             <a href="https://discord.com" target="_blank" class="social-item">
                 <span class="social-label"><i class="fa-brands fa-discord"></i> DISCORD</span>
                 <span class="social-handle">@drew</span>
@@ -275,6 +276,7 @@
                 <span class="social-handle">/in/andrewhillier</span>
             </a>
 
+            <!-- Row 6 -->
             <a href="https://youtube.com" target="_blank" class="social-item">
                 <span class="social-label"><i class="fa-brands fa-youtube"></i> YOUTUBE</span>
                 <span class="social-handle">@drew</span>
@@ -284,58 +286,9 @@
                 <span class="social-handle">@drew</span>
             </a>
 
+            <!-- Row 7 -->
             <a href="https://tiktok.com" target="_blank" class="social-item">
                 <span class="social-label"><i class="fa-brands fa-tiktok"></i> TIKTOK</span>
                 <span class="social-handle">@drew</span>
             </a>
             <a href="https://telegram.org" target="_blank" class="social-item">
-                <span class="social-label"><i class="fa-paper-plane"></i> TELEGRAM</span>
-
-@drew
-
-ABOUT
-
-PC BUILDER.
-
-TECH ENTHUSIAST.
-
-INTERNET DWELLER.
-
->_
-
-
-
-LOCATION
-
-TORONTO, CANADA
-
-[CN TOWER VECTOR EMULATED]
-
-
-
-CONTACT
-
-WANT TO WORK TOGETHER?
-
-SEND A MESSAGE.
-
-> SEND MESSAGE
-
-
-© 2026 ANDREW HILLIER
-AH-01:~ $ ■
-ALL SYSTEMS OPERATIONAL
-BOOT TIME: --:--:--
-function updateClock() {
-const now = new Date();
-const timeString = 'BOOT TIME: ' +
-String(now.getHours()).padStart(2, '0') + ':' +
-String(now.getMinutes()).padStart(2, '0') + ':' +
-String(now.getSeconds()).padStart(2, '0');
-document.getElementById('clock').textContent = timeString;
-}
-setInterval(updateClock, 1000);
-updateClock();
-
-
-
